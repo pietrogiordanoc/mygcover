@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { ArrowLeft, ArrowRight, CheckCircle2, ShieldCheck } from "lucide-react";
 
 const states = [
@@ -72,10 +73,41 @@ const initialForm = {
 };
 
 export default function EvaluationPage() {
+  const searchParams = useSearchParams();
   const [stepIndex, setStepIndex] = useState(0);
   const [answers, setAnswers] = useState(initialForm);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const countryFromUrl = searchParams.get("country") ?? "";
+    const stateFromUrl = searchParams.get("state") ?? "";
+
+    if (countryFromUrl) {
+      setAnswers((prev) => ({ ...prev, country: countryFromUrl }));
+    }
+
+    if (stateFromUrl) {
+      setAnswers((prev) => ({ ...prev, state: stateFromUrl }));
+    }
+
+    const saved = sessionStorage.getItem("mygcover-location");
+    if (!saved) {
+      return;
+    }
+
+    try {
+      const parsed = JSON.parse(saved) as { country?: string; state?: string };
+      if (parsed.country) {
+        setAnswers((prev) => ({ ...prev, country: parsed.country ?? "" }));
+      }
+      if (parsed.state) {
+        setAnswers((prev) => ({ ...prev, state: parsed.state ?? "" }));
+      }
+    } catch {
+      // ignore malformed storage
+    }
+  }, [searchParams]);
 
   const currentStep = steps[stepIndex];
   const progress = ((stepIndex + 1) / steps.length) * 100;

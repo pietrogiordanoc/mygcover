@@ -10,22 +10,22 @@ const manrope = Manrope({
 export const metadata: Metadata = {
   metadataBase: new URL("https://mygcover.com"),
   title: {
-    default: "MyGcover | Seguros de vida para hispanos",
+    default: "MyGcover | Seguros de vida para hispanos en Estados Unidos",
     template: "%s | MyGcover",
   },
   description:
-    "Conoce opciones de seguro de vida, beneficios en vida, protección familiar y productos con posible acumulación de valor. Orientación en español.",
+    "Explora opciones de seguro de vida, IUL, beneficios en vida y protección familiar. Evaluación inicial gratuita y orientación en español para hispanos en Estados Unidos.",
   keywords: [
-    "seguro de vida",
-    "seguros de vida",
     "seguro de vida para hispanos",
     "seguro de vida en Estados Unidos",
-    "IUL",
+    "IUL en español",
+    "seguro de vida con ITIN",
     "beneficios en vida",
     "protección familiar",
+    "gastos finales",
   ],
   openGraph: {
-    title: "MyGcover | Seguros de vida para hispanos",
+    title: "MyGcover | Seguros de vida para hispanos en Estados Unidos",
     description:
       "Protección para cada etapa de tu vida. Educación, orientación y evaluación inicial para familias hispanas en Estados Unidos.",
     url: "https://mygcover.com",
@@ -35,9 +35,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "MyGcover | Seguros de vida para hispanos",
+    title: "MyGcover | Seguros de vida para hispanos en Estados Unidos",
     description:
-      "Orientación clara sobre seguros de vida, beneficios en vida y protección familiar.",
+      "Orientación clara sobre seguros de vida, IUL, beneficios en vida y protección familiar para hispanos en Estados Unidos.",
   },
   icons: {
     icon: "/brand/avatar.png",
