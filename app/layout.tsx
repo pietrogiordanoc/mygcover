@@ -39,6 +39,11 @@ export const metadata: Metadata = {
     description:
       "Orientación clara sobre seguros de vida, beneficios en vida y protección familiar.",
   },
+  icons: {
+    icon: "/brand/avatar.png",
+    shortcut: "/brand/avatar.png",
+    apple: "/brand/avatar.png",
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Menu } from "lucide-react";
 
@@ -16,12 +17,8 @@ export function SiteHeader() {
     <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/85 backdrop-blur-xl">
       <div className="container-shell flex h-20 items-center justify-between gap-4">
         <Link href="/" className="flex items-center gap-3" aria-label="MyGcover inicio">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#dfeeff] text-lg font-black text-[#0b1f3a]">
-            M
-          </div>
-          <div>
-            <p className="text-lg font-extrabold tracking-tight text-[#0b1f3a]">MyGcover</p>
-            <p className="text-[10px] uppercase tracking-[0.18em] text-slate-500">Seguros con sentido</p>
+          <div className="flex h-11 w-28 items-center justify-center overflow-hidden rounded-xl bg-white ring-1 ring-slate-200">
+            <Image src="/brand/logo.png" alt="MyGcover" width={160} height={44} priority className="h-auto w-full object-contain" />
           </div>
         </Link>
 

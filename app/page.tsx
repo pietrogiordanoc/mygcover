@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, BadgeCheck, BookOpenText, CheckCircle2, CircleDollarSign, HeartHandshake, MessageCircleMore, ShieldCheck, Sparkles, TrendingUp, Video } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
@@ -90,15 +91,19 @@ export default function Home() {
                 </p>
               </div>
 
-              <div className="hero-visual card-surface p-6 md:p-8">
-                <div className="relative h-full min-h-[500px] rounded-[1.5rem] border border-white/60 bg-white/35 p-6 backdrop-blur-sm">
-                  <div className="absolute inset-x-10 top-10 h-40 rounded-[2rem] bg-gradient-to-br from-[#dfeeff] via-white to-[#edf9f3] shadow-[0_24px_60px_rgba(29,92,221,0.12)]" />
-                  <div className="absolute left-8 top-12 h-36 w-36 rounded-full bg-[#dfeeff] ring-8 ring-white/80" />
-                  <div className="absolute right-8 bottom-12 h-44 w-44 rounded-full bg-[#ddf6ea] ring-8 ring-white/80" />
-                  <div className="absolute left-1/2 top-1/2 h-48 w-48 -translate-x-1/2 -translate-y-1/2 rounded-[2rem] border border-[#aac2ff] bg-white/80 shadow-[0_18px_40px_rgba(11,31,58,0.08)]" />
-                  <div className="absolute bottom-10 left-8 right-8 rounded-[1.5rem] bg-[#0b1f3a] p-5 text-white shadow-[0_12px_30px_rgba(11,31,58,0.2)]">
-                    <p className="text-xs uppercase tracking-[0.2em] text-blue-200">MyGcover</p>
-                    <p className="mt-4 text-xl font-semibold">Protección para cada etapa de tu vida.</p>
+              <div className="hero-visual card-surface p-3 md:p-4">
+                <div className="relative h-full min-h-[500px] overflow-hidden rounded-[1.5rem] border border-white/60 bg-white/20 backdrop-blur-sm">
+                  <Image src="/brand/hero-bg.jpg" alt="Oficina MyGcover" fill className="object-cover" priority />
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#08192c]/80 via-[#0a1d35]/55 to-[#0d2342]/20" />
+                  <div className="absolute left-6 top-6 rounded-full border border-white/25 bg-white/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-white/80 backdrop-blur-sm">
+                    MyGcover
+                  </div>
+                  <div className="absolute right-6 top-6 rounded-full bg-white/10 p-2 text-white/80 backdrop-blur-sm">
+                    <BadgeCheck size={18} className="text-[#7ce2b1]" />
+                  </div>
+                  <div className="absolute bottom-6 left-6 right-6 rounded-[1.5rem] border border-white/15 bg-white/12 p-5 text-white shadow-[0_20px_45px_rgba(11,31,58,0.28)] backdrop-blur-md">
+                    <p className="text-xs uppercase tracking-[0.2em] text-blue-100">Protección con sentido</p>
+                    <p className="mt-4 text-xl font-semibold leading-7 md:text-2xl">Asesoría clara para proteger lo importante.</p>
                     <div className="mt-4 flex items-center gap-3 text-sm text-blue-100">
                       <BadgeCheck size={16} className="text-[#7ce2b1]" />
                       Claridad, protección y acompañamiento
@@ -231,9 +236,11 @@ export default function Home() {
 
             <div className="grid gap-6 lg:grid-cols-[1.3fr_0.7fr]">
               <div className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/5 p-3">
-                <div className="aspect-video rounded-[1.25rem] bg-gradient-to-br from-[#dfeeff] via-[#a6d3ff] to-[#dff8eb] p-6 text-[#0b1f3a]">
-                  <div className="flex h-full items-center justify-center">
-                    <div className="flex h-20 w-20 items-center justify-center rounded-full bg-white/80 text-[#1d5cdd] shadow-xl">
+                <div className="relative aspect-video overflow-hidden rounded-[1.25rem] bg-[#dfeeff] text-[#0b1f3a]">
+                  <Image src="/brand/youtube-bg.png" alt="Contenido educativo de MyGcover" fill className="object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#0a1d35]/35 via-[#0a1d35]/10 to-[#122f4f]/20" />
+                  <div className="relative flex h-full items-center justify-center">
+                    <div className="flex h-20 w-20 items-center justify-center rounded-full bg-white/80 text-[#1d5cdd] shadow-xl backdrop-blur-sm">
                       <Video size={34} />
                     </div>
                   </div>
@@ -296,11 +303,19 @@ export default function Home() {
         <section className="bg-[#f5f9ff] py-20">
           <div className="container-shell">
             <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-              <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_18px_40px_rgba(11,31,58,0.08)]">
-                <div className="relative mx-auto h-[430px] max-w-[320px] rounded-[2rem] bg-gradient-to-br from-[#dfeeff] via-[#edf7ff] to-[#eafaf2] p-6">
-                  <div className="absolute inset-x-8 bottom-8 h-28 rounded-[1.25rem] bg-[#0b1f3a] shadow-xl" />
-                  <div className="absolute left-1/2 top-8 h-40 w-40 -translate-x-1/2 rounded-full bg-white shadow-[0_18px_35px_rgba(11,31,58,0.10)]" />
-                  <div className="absolute left-1/2 top-14 h-32 w-24 -translate-x-1/2 rounded-[5rem] bg-[#cfe1ff]" />
+              <div className="rounded-[2rem] border border-slate-200 bg-white p-3 shadow-[0_18px_40px_rgba(11,31,58,0.08)]">
+                <div className="relative h-[430px] overflow-hidden rounded-[1.5rem] bg-slate-100">
+                  <Image src="/brand/office-vert.jpg" alt="Equipo MyGcover" fill className="object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0b1f3a]/70 via-[#0b1f3a]/15 to-transparent" />
+                  <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between rounded-2xl border border-white/15 bg-white/10 p-4 text-white backdrop-blur-md">
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.18em] text-blue-100">MyGcover</p>
+                      <p className="mt-1 font-semibold">Atención personalizada</p>
+                    </div>
+                    <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white/15 text-[#7ce2b1]">
+                      <CheckCircle2 size={20} />
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -313,12 +328,13 @@ export default function Home() {
                   MyGcover nace para hacer que los seguros de vida sean más fáciles de entender. Creemos en escuchar primero, explicar con claridad y presentar opciones de manera responsable.
                 </p>
                 <div className="mt-8 rounded-[1.5rem] border border-slate-200 bg-white p-6">
-                  <p className="text-sm uppercase tracking-[0.18em] text-slate-500">Perfil editable</p>
-                  <p className="mt-2 text-xl font-bold text-[#0b1f3a]">Nombre completo</p>
-                  <p className="mt-1 text-slate-600">Embajador de seguros / orientador</p>
+                  <p className="text-sm uppercase tracking-[0.18em] text-slate-500">Perfil</p>
+                  <p className="mt-2 text-xl font-bold text-[#0b1f3a]">Embajador de seguros</p>
+                  <p className="mt-1 text-slate-600">Orientación en español y acompañamiento personalizado.</p>
                   <div className="mt-4 flex flex-wrap gap-3 text-sm text-slate-600">
-                    <span className="rounded-full bg-[#edf5ff] px-3 py-1">Licencia: por definir</span>
-                    <span className="rounded-full bg-[#edf5ff] px-3 py-1">Estados: por definir</span>
+                    <span className="rounded-full bg-[#edf5ff] px-3 py-1">Asesoría clara</span>
+                    <span className="rounded-full bg-[#edf5ff] px-3 py-1">Atención en español</span>
+                    <span className="rounded-full bg-[#edf5ff] px-3 py-1">Protección con sentido</span>
                   </div>
                 </div>
               </div>

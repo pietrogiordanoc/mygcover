@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 const footerLinks = [
@@ -18,12 +19,8 @@ export function SiteFooter() {
         <div className="grid gap-10 md:grid-cols-[1.2fr_0.8fr_1fr]">
           <div>
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#dfeeff] text-lg font-black text-[#0b1f3a]">
-                M
-              </div>
-              <div>
-                <p className="text-lg font-extrabold text-[#0b1f3a]">MyGcover</p>
-                <p className="text-xs uppercase tracking-[0.14em] text-slate-500">Protección para cada etapa de tu vida</p>
+              <div className="flex h-12 w-32 items-center justify-center overflow-hidden rounded-xl bg-white ring-1 ring-slate-200">
+                <Image src="/brand/logo.png" alt="MyGcover" width={180} height={48} className="h-auto w-full object-contain" />
               </div>
             </div>
             <p className="mt-4 max-w-sm text-sm leading-7 text-slate-600">
