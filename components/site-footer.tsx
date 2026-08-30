@@ -31,9 +31,9 @@ export function SiteFooter() {
             </p>
             <div className="mt-5 flex gap-4 text-sm text-slate-600">
               <Link href="https://instagram.com" className="hover:text-[#1d5cdd]">Instagram</Link>
-              <Link href="https://youtube.com" className="hover:text-[#1d5cdd]">YouTube</Link>
-              <Link href="https://wa.me/0000000000" className="hover:text-[#1d5cdd]">WhatsApp</Link>
-              <Link href="mailto:hola@mygcover.com" className="hover:text-[#1d5cdd]">Email</Link>
+              <Link href="https://www.youtube.com/@MyGcoverinsurance" className="hover:text-[#1d5cdd]">YouTube</Link>
+              <Link href="https://wa.me/17863936274" className="hover:text-[#1d5cdd]">WhatsApp</Link>
+              <Link href="mailto:info@mygcover.com" className="hover:text-[#1d5cdd]">Email</Link>
             </div>
           </div>
 

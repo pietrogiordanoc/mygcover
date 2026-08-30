@@ -7,7 +7,7 @@ export default function TermsPage() {
         <div className="mt-8 space-y-5 text-slate-600">
           <p>El contenido de este sitio tiene fines educativos y de orientación general. No constituye una recomendación personalizada ni una oferta de seguro ni aprobación de producto.</p>
           <p>La información puede variar según país, estado, edad, salud, documentación y demás condiciones. La disponibilidad de productos depende de la aseguradora, el producto y la elegibilidad del solicitante.</p>
-          <p>Se recomienda consultar con un agente licenciado para obtener información específica sobre productos disponibles antes de tomar decisiones finales.</p>
+          <p>Se recomienda consultar con un profesional de seguros o representante autorizado para obtener información específica sobre productos disponibles antes de tomar decisiones finales.</p>
         </div>
       </article>
     </main>

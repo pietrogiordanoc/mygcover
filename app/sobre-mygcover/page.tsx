@@ -21,13 +21,13 @@ export default function AboutPage() {
             <div>
               <p className="text-sm uppercase tracking-[0.18em] text-slate-500">Perfil editable</p>
               <p className="mt-2 text-2xl font-bold text-[#0b1f3a]">Nombre completo</p>
-              <p className="mt-1 text-slate-600">Cargo</p>
+              <p className="mt-1 text-slate-600">Embajador de seguros</p>
             </div>
             <div className="grid gap-4 sm:grid-cols-2 text-sm text-slate-600">
-              <div className="rounded-2xl bg-slate-50 p-4"><strong className="block text-[#0b1f3a]">Agente de seguros licenciado</strong> Por definir</div>
-              <div className="rounded-2xl bg-slate-50 p-4"><strong className="block text-[#0b1f3a]">Número de licencia</strong> Por definir</div>
-              <div className="rounded-2xl bg-slate-50 p-4"><strong className="block text-[#0b1f3a]">Estados en los que puede operar</strong> Por definir</div>
-              <div className="rounded-2xl bg-slate-50 p-4"><strong className="block text-[#0b1f3a]">Correo</strong> hola@mygcover.com</div>
+              <div className="rounded-2xl bg-slate-50 p-4"><strong className="block text-[#0b1f3a]">Rol</strong> Embajador de seguros</div>
+              <div className="rounded-2xl bg-slate-50 p-4"><strong className="block text-[#0b1f3a]">Áreas de enfoque</strong> Protección familiar y orientación</div>
+              <div className="rounded-2xl bg-slate-50 p-4"><strong className="block text-[#0b1f3a]">Estados / alcance</strong> Por definir</div>
+              <div className="rounded-2xl bg-slate-50 p-4"><strong className="block text-[#0b1f3a]">Correo</strong> info@mygcover.com</div>
             </div>
             <Link href="/contacto" className="primary-button">Solicitar orientación</Link>
           </div>

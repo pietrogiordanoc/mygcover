@@ -54,7 +54,7 @@ const solutionCards = [
 const faqList = [
   { q: "¿Qué es un seguro de vida?", a: "Es un producto diseñado para brindar apoyo financiero a personas o familias ante una pérdida importante, según los términos de la póliza y la elegibilidad." },
   { q: "¿Qué es un seguro de vida indexado o IUL?", a: "Un IUL combina protección con un componente de acumulación de valor que puede estar vinculado al desempeño de un índice. Sus costos y condiciones varían según el producto y la aseguradora." },
-  { q: "¿MyGcover es una compañía aseguradora?", a: "No. MyGcover es una marca de orientación y asesoría; cuando corresponde, puede conectar a personas con agentes licenciado." },
+  { q: "¿MyGcover es una compañía aseguradora?", a: "No. MyGcover es una marca de orientación y asesoría; cuando corresponde, puede conectar a personas con profesionales de seguros para recibir orientación adicional." },
   { q: "¿La evaluación inicial tiene costo?", a: "La evaluación inicial es una orientación sin costo y sin compromiso, orientada a conocer necesidades básicas y posibles opciones." },
 ];
 
@@ -224,7 +224,7 @@ export default function Home() {
                 <h2 className="mt-3 text-3xl font-extrabold md:text-5xl">Contenido útil para entender mejor tus opciones.</h2>
               </div>
               <div className="flex gap-4">
-                <Link href="https://youtube.com" className="secondary-button border-white/20 bg-white/5 text-white hover:bg-white/10">Visitar YouTube</Link>
+                <Link href="https://www.youtube.com/@MyGcoverinsurance" className="secondary-button border-white/20 bg-white/5 text-white hover:bg-white/10">Visitar YouTube</Link>
                 <Link href="https://instagram.com" className="secondary-button border-white/20 bg-white/5 text-white hover:bg-white/10">Seguir en Instagram</Link>
               </div>
             </div>
@@ -315,7 +315,7 @@ export default function Home() {
                 <div className="mt-8 rounded-[1.5rem] border border-slate-200 bg-white p-6">
                   <p className="text-sm uppercase tracking-[0.18em] text-slate-500">Perfil editable</p>
                   <p className="mt-2 text-xl font-bold text-[#0b1f3a]">Nombre completo</p>
-                  <p className="mt-1 text-slate-600">Cargo / Agente de seguros licenciado</p>
+                  <p className="mt-1 text-slate-600">Embajador de seguros / orientador</p>
                   <div className="mt-4 flex flex-wrap gap-3 text-sm text-slate-600">
                     <span className="rounded-full bg-[#edf5ff] px-3 py-1">Licencia: por definir</span>
                     <span className="rounded-full bg-[#edf5ff] px-3 py-1">Estados: por definir</span>
@@ -356,7 +356,7 @@ export default function Home() {
                 </div>
                 <div className="flex flex-col gap-4 sm:flex-row md:flex-col xl:flex-row">
                   <Link href="/contacto" className="primary-button bg-white text-[#0b1f3a] shadow-none">Solicitar orientación</Link>
-                  <a href="https://wa.me/0000000000" className="secondary-button border-white/20 bg-white/5 text-white hover:bg-white/10">Hablar por WhatsApp</a>
+                  <a href="https://wa.me/17863936274" className="secondary-button border-white/20 bg-white/5 text-white hover:bg-white/10">Hablar por WhatsApp</a>
                 </div>
               </div>
             </div>

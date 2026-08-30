@@ -3,12 +3,12 @@ export const siteConfig = {
   tagline: "Protección para cada etapa de tu vida.",
   description:
     "MyGcover es una marca de orientación y asesoría sobre seguros de vida, protección familiar, beneficios en vida y productos con posible acumulación de valor.",
-  url: "https://mygcover.com",
-  email: "hola@mygcover.com",
-  whatsapp: "https://wa.me/0000000000?text=Hola%2C%20visité%20MyGcover%20y%20me%20gustaría%20recibir%20orientación%20sobre%20mis%20opciones%20de%20protección.",
+  url: "https://www.mygcover.com",
+  email: "info@mygcover.com",
+  whatsapp: "https://wa.me/17863936274?text=Hola%2C%20visité%20MyGcover%20y%20me%20gustaría%20recibir%20orientación%20sobre%20mis%20opciones%20de%20protección.",
   instagram: "https://instagram.com",
-  youtube: "https://youtube.com",
-  phone: "+1 (000) 000-0000",
+  youtube: "https://www.youtube.com/@MyGcoverinsurance",
+  phone: "+1 (786) 393-6274",
 };
 
 export const routes = [

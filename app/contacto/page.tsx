@@ -29,7 +29,7 @@ export default function ContactPage() {
             <p className="mt-4 text-lg leading-8 text-slate-600">
               Si tienes dudas, quieres conversar con un agente o simplemente necesitas orientación, estamos aquí para ayudarte.
             </p>
-            <a href="https://wa.me/0000000000" className="mt-8 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-[#eafaf2] px-5 py-3 text-sm font-semibold text-[#0b1f3a]">
+            <a href="https://wa.me/17863936274" className="mt-8 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-[#eafaf2] px-5 py-3 text-sm font-semibold text-[#0b1f3a]">
               Prefiero conversar por WhatsApp <ArrowRight size={16} />
             </a>
           </div>
