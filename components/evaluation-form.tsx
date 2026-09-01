@@ -10,6 +10,12 @@ const states = [
 
 const steps = [
   {
+    id: "interest",
+    question: "¿Qué tipo de protección estás buscando?",
+    type: "single",
+    options: ["IUL: protección y acumulación de valor", "Seguro de vida", "Gastos finales", "Seguro de salud", "Seguro de viaje", "Seguro de vida internacional", "Todavía no estoy seguro"],
+  },
+  {
     id: "country",
     question: "¿En qué país vives actualmente?",
     type: "single",
@@ -61,6 +67,7 @@ const steps = [
 ];
 
 const initialForm = {
+  interest: "",
   country: "",
   state: "",
   age: "",
@@ -151,19 +158,28 @@ export default function EvaluationForm() {
     return Boolean(answers[currentStep.id as keyof typeof answers]);
   };
 
+  // El beneficio (fallecimiento/valor en efectivo) solo aplica a vida/IUL, no a salud o viaje.
+  const isStepSkipped = (index: number) => {
+    const step = steps[index];
+    if (step.id === "benefit") {
+      return answers.interest === "Seguro de salud" || answers.interest === "Seguro de viaje";
+    }
+    return false;
+  };
+
   const nextStep = () => {
     if (!canContinue()) {
       setError("Selecciona una opción para continuar.");
       return;
     }
 
-    if (currentStep.id === "country" && answers.country === "Estados Unidos") {
-      setStepIndex((prev) => prev + 1);
-      return;
+    let nextIndex = stepIndex + 1;
+    while (nextIndex < steps.length && isStepSkipped(nextIndex)) {
+      nextIndex += 1;
     }
 
-    if (stepIndex < steps.length - 1) {
-      setStepIndex((prev) => prev + 1);
+    if (nextIndex < steps.length) {
+      setStepIndex(nextIndex);
     } else {
       setLeadForm((prev) => ({
         ...prev,
@@ -175,7 +191,13 @@ export default function EvaluationForm() {
   };
 
   const prevStep = () => {
-    setStepIndex((prev) => Math.max(prev - 1, 0));
+    setStepIndex((prev) => {
+      let prevIndex = prev - 1;
+      while (prevIndex > 0 && isStepSkipped(prevIndex)) {
+        prevIndex -= 1;
+      }
+      return Math.max(prevIndex, 0);
+    });
     setError(null);
   };
 

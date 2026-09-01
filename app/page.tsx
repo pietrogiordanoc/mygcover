@@ -8,10 +8,12 @@ import {
   ArrowRight,
   BadgeCheck,
   BookOpenText,
-  CircleDollarSign,
   CreditCard,
+  Globe2,
   HeartHandshake,
+  HeartPulse,
   MessageCircleMore,
+  Plane,
   ShieldCheck,
   Sparkles,
   TrendingUp,
@@ -66,24 +68,34 @@ const valueCards = [
 
 const solutionCards = [
   {
-    title: "Seguro de vida",
-    text: "Puede proporcionar protección económica para las personas que dependen de ti si llegaras a faltar.",
-    icon: ShieldCheck,
-  },
-  {
-    title: "Beneficios en vida",
-    text: "Algunas pólizas permiten acceder anticipadamente a una parte del beneficio en determinadas situaciones cubiertas.",
+    title: "IUL — Vida y acumulación de valor",
+    text: "Nuestro producto destacado: protección de vida combinada con un componente de acumulación de valor vinculado a un índice.",
     icon: TrendingUp,
   },
   {
-    title: "Acumulación de valor",
-    text: "Algunos productos pueden desarrollar valor en efectivo según sus costos, condiciones y desempeño.",
-    icon: CircleDollarSign,
+    title: "Seguro de vida a término",
+    text: "Protección por un periodo determinado, pensada para cubrir necesidades específicas a un costo predecible.",
+    icon: ShieldCheck,
   },
   {
-    title: "Gastos finales",
-    text: "Existen opciones diseñadas para ayudar con gastos funerarios y otras obligaciones finales.",
+    title: "Gastos finales (FEX)",
+    text: "Opciones diseñadas para ayudar con gastos funerarios y otras obligaciones finales.",
     icon: Sparkles,
+  },
+  {
+    title: "Seguro de salud",
+    text: "Opciones de cobertura médica según tu ubicación y elegibilidad.",
+    icon: HeartPulse,
+  },
+  {
+    title: "Seguro de viaje",
+    text: "Protección para viajes nacionales e internacionales.",
+    icon: Plane,
+  },
+  {
+    title: "Seguro de vida internacional",
+    text: "Para personas que viven fuera de Estados Unidos, según elegibilidad.",
+    icon: Globe2,
   },
 ];
 
@@ -280,7 +292,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
               {solutionCards.map(({ title, text, icon: Icon }) => (
                 <article key={title} className="rounded-[1.5rem] border border-slate-200 bg-white p-6 shadow-[0_10px_30px_rgba(15,23,42,0.04)]">
                   <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#eff9f4] text-[#158d5a]">
@@ -293,7 +305,7 @@ export default function Home() {
             </div>
 
             <p className="mt-8 text-center text-sm text-slate-600">
-              La disponibilidad, elegibilidad, costos y beneficios dependen del producto, la aseguradora, el estado y la situación de cada solicitante.
+              Los beneficios en vida se explican dentro del IUL y de otros seguros de vida compatibles, según la póliza. La disponibilidad, elegibilidad, costos y beneficios dependen del producto, la aseguradora, el estado y la situación de cada solicitante.
             </p>
           </div>
         </section>
