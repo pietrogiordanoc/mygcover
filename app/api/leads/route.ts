@@ -4,9 +4,8 @@ import { leadSchema } from "@/lib/lead-schema";
 import { insertLeadServer } from "@/lib/supabase-server";
 import { isRateLimited } from "@/lib/rate-limit";
 
-// Cambiar FROM y TO a info@mygcover.com cuando el dominio esté verificado en Resend.
-const NOTIFY_FROM = "MyGCover <onboarding@resend.dev>";
-const NOTIFY_TO = "mygcover@gmail.com";
+const NOTIFY_FROM = "MyGCover <info@mygcover.com>";
+const NOTIFY_TO = "info@mygcover.com";
 
 async function sendLeadNotification(lead: {
   full_name: string;
