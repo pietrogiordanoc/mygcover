@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { ArrowLeft, ArrowRight, CheckCircle2, ShieldCheck } from "lucide-react";
 
 const states = [
@@ -83,6 +83,7 @@ const leadInterestOptions = ["Seguro de vida", "IUL", "Salud", "Viaje", "No esto
 const leadContactMethods = ["Telefono", "WhatsApp", "Email"] as const;
 
 export default function EvaluationForm() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const [stepIndex, setStepIndex] = useState(0);
   const [answers, setAnswers] = useState(initialForm);
@@ -253,20 +254,8 @@ export default function EvaluationForm() {
       return;
     }
 
-    setLeadSuccess("Gracias. Recibimos tu solicitud y nos pondremos en contacto contigo.");
-    setLeadForm({
-      fullName: "",
-      email: "",
-      phone: "",
-      country: answers.country || "Estados Unidos",
-      state: answers.state || "",
-      insuranceInterest: "No estoy seguro",
-      preferredContactMethod: "WhatsApp",
-      message: "",
-      consent: false,
-      honeypot: "",
-    });
     setIsLeadSubmitting(false);
+    router.push("/gracias");
   };
 
   if (submitted) {
@@ -440,9 +429,11 @@ export default function EvaluationForm() {
   return (
     <main className="container-shell py-10 md:py-14">
       <div className="mx-auto max-w-3xl rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_18px_40px_rgba(11,31,58,0.08)] md:p-8">
-        <div className="mb-8 flex items-center justify-between text-sm text-slate-500">
-          <span>Evaluación inicial de protección</span>
-          <span>{stepIndex + 1}/{steps.length}</span>
+        <div className="mb-6 flex items-center justify-between">
+          <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-700">
+            <ArrowLeft size={14} /> Volver al inicio
+          </Link>
+          <span className="text-sm text-slate-400">{stepIndex + 1}/{steps.length}</span>
         </div>
 
         <div className="mb-8 h-2.5 overflow-hidden rounded-full bg-slate-100">
