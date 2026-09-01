@@ -1,7 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { ArrowRight } from "lucide-react";
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 
 const usStates = [
   "Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawái","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Misisipi","Missouri","Montana","Nebraska","Nevada","Nuevo Hampshire","Nueva Jersey","Nuevo México","Nueva York","Carolina del Norte","Dakota del Norte","Ohio","Oklahoma","Oregón","Pensilvania","Rhode Island","Carolina del Sur","Dakota del Sur","Tennessee","Texas","Utah","Vermont","Virginia","Washington","Virginia Occidental","Wisconsin","Wyoming","Washington D.C.",
@@ -25,6 +28,7 @@ const countryOptions = [
 ];
 
 export default function ContactPage() {
+  const router = useRouter();
   const [form, setForm] = useState({
     fullName: "",
     phone: "",
@@ -99,23 +103,14 @@ export default function ContactPage() {
       return;
     }
 
-    setSuccess("Gracias. Recibimos tu solicitud y nos pondremos en contacto contigo.");
-    setForm({
-      fullName: "",
-      phone: "",
-      email: "",
-      country: "Estados Unidos",
-      state: "",
-      insuranceInterest: objectiveOptions[0],
-      contactMethod: "WhatsApp",
-      message: "",
-      consent: false,
-    });
     setIsSubmitting(false);
+    router.push("/gracias");
   };
 
   return (
-    <main className="container-shell py-16">
+    <>
+      <SiteHeader />
+      <main className="container-shell py-16">
       <div className="mx-auto max-w-5xl rounded-[2rem] border border-slate-200 bg-white p-8 shadow-[0_18px_40px_rgba(11,31,58,0.08)] md:p-10">
         <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
@@ -282,6 +277,8 @@ export default function ContactPage() {
           </form>
         </div>
       </div>
-    </main>
+      </main>
+      <SiteFooter />
+    </>
   );
 }
