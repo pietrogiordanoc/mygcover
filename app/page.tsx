@@ -2,8 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
 import {
   ArrowRight,
   BadgeCheck,
@@ -27,25 +25,6 @@ const trustPillars = [
   "Presencia en Estados Unidos y toda América",
   "Evaluación inicial sin costo",
   "Orientación según tu situación",
-];
-
-const states = [
-  "Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawái","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Misisipi","Missouri","Montana","Nebraska","Nevada","Nuevo Hampshire","Nueva Jersey","Nuevo México","Nueva York","Carolina del Norte","Dakota del Norte","Ohio","Oklahoma","Oregón","Pensilvania","Rhode Island","Carolina del Sur","Dakota del Sur","Tennessee","Texas","Utah","Vermont","Virginia","Washington","Virginia Occidental","Wisconsin","Wyoming","Washington D.C.",
-];
-
-const latamCountries = [
-  "México",
-  "Puerto Rico",
-  "República Dominicana",
-  "Colombia",
-  "Venezuela",
-  "Argentina",
-  "Chile",
-  "Perú",
-  "Ecuador",
-  "Panamá",
-  "Costa Rica",
-  "Otro país de América",
 ];
 
 const valueCards = [
@@ -139,30 +118,6 @@ const faqList = [
 ];
 
 export default function Home() {
-  const router = useRouter();
-  const [locationType, setLocationType] = useState<"us" | "latam">("us");
-  const [selectedState, setSelectedState] = useState("");
-  const [selectedLatamCountry, setSelectedLatamCountry] = useState("México");
-  const [error, setError] = useState("");
-
-  const handleContinue = () => {
-    if (locationType === "us") {
-      if (!selectedState) {
-        setError("Selecciona tu estado para continuar.");
-        return;
-      }
-
-      const payload = { country: "Estados Unidos", state: selectedState };
-      sessionStorage.setItem("mygcover-location", JSON.stringify(payload));
-      router.push(`/evaluacion?country=${encodeURIComponent(payload.country)}&state=${encodeURIComponent(payload.state)}`);
-      return;
-    }
-
-    const payload = { country: selectedLatamCountry, state: "" };
-    sessionStorage.setItem("mygcover-location", JSON.stringify(payload));
-    router.push(`/evaluacion?country=${encodeURIComponent(payload.country)}`);
-  };
-
   return (
     <>
       <SiteHeader />
@@ -197,73 +152,6 @@ export default function Home() {
                 <p className="mt-2 text-xs text-white/70">
                   La disponibilidad de productos, coberturas y requisitos varía según el país, el estado, la aseguradora y la elegibilidad.
                 </p>
-
-                <div className="mt-10 rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-[0_18px_40px_rgba(11,31,58,0.06)]">
-                  <p className="text-xl font-extrabold text-[#0b1f3a]">Comienza por decirnos dónde vives</p>
-                  <p className="mt-2 text-base text-slate-600">¿Vives actualmente en Estados Unidos?</p>
-
-                  <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setLocationType("us");
-                        setError("");
-                      }}
-                      className={`rounded-2xl border px-4 py-4 text-left text-base font-medium transition ${locationType === "us" ? "border-[#1d5cdd] bg-[#edf5ff] text-[#0b1f3a]" : "border-slate-200 bg-slate-50 text-slate-700"}`}
-                    >
-                      Sí, vivo en Estados Unidos
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setLocationType("latam");
-                        setError("");
-                      }}
-                      className={`rounded-2xl border px-4 py-4 text-left text-base font-medium transition ${locationType === "latam" ? "border-[#1d5cdd] bg-[#edf5ff] text-[#0b1f3a]" : "border-slate-200 bg-slate-50 text-slate-700"}`}
-                    >
-                      Vivo en otro país de América
-                    </button>
-                  </div>
-
-                  {locationType === "us" ? (
-                    <div className="mt-5">
-                      <label className="block text-sm font-medium text-slate-700">Selecciona tu estado</label>
-                      <select
-                        value={selectedState}
-                        onChange={(event) => {
-                          setSelectedState(event.target.value);
-                          setError("");
-                        }}
-                        className="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-base text-slate-700"
-                      >
-                        <option value="">Selecciona tu estado</option>
-                        {states.map((state) => (
-                          <option key={state} value={state}>{state}</option>
-                        ))}
-                      </select>
-                    </div>
-                  ) : (
-                    <div className="mt-5">
-                      <label className="block text-sm font-medium text-slate-700">Selecciona tu país</label>
-                      <select
-                        value={selectedLatamCountry}
-                        onChange={(event) => setSelectedLatamCountry(event.target.value)}
-                        className="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-base text-slate-700"
-                      >
-                        {latamCountries.map((country) => (
-                          <option key={country} value={country}>{country}</option>
-                        ))}
-                      </select>
-                      <p className="mt-3 text-sm text-slate-600">Revisaremos si existen opciones disponibles para tu ubicación.</p>
-                    </div>
-                  )}
-
-                  {error ? <p className="mt-4 text-sm font-medium text-red-600">{error}</p> : null}
-
-                  <button type="button" onClick={handleContinue} className="primary-button mt-5 w-full justify-center sm:w-auto">
-                    Continuar mi evaluación
-                  </button>
-                </div>
             </div>
           </div>
         </section>
