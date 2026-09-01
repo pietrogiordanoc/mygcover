@@ -428,18 +428,8 @@ export default function Home() {
           <div className="container-shell">
             <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
               <div className="rounded-[2rem] border border-slate-200 bg-white p-3 shadow-[0_18px_40px_rgba(11,31,58,0.08)]">
-                <div className="relative h-[430px] overflow-hidden rounded-[1.5rem] bg-slate-100">
-                  <Image src="/brand/office-vert.jpg" alt="Equipo MyGcover" fill sizes="(max-width: 768px) 100vw, 40vw" className="object-cover" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0b1f3a]/70 via-[#0b1f3a]/15 to-transparent" />
-                  <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between rounded-2xl border border-white/15 bg-white/10 p-4 text-white backdrop-blur-md">
-                    <div>
-                      <p className="text-xs uppercase tracking-[0.18em] text-blue-100">MyGcover</p>
-                      <p className="mt-1 font-semibold">Atención personalizada</p>
-                    </div>
-                    <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white/15 text-[#7ce2b1]">
-                      <BadgeCheck size={20} />
-                    </div>
-                  </div>
+                <div className="relative h-[450px] overflow-hidden rounded-[1.5rem] bg-slate-100 sm:h-[500px] lg:h-full lg:min-h-[590px]">
+                  <Image src="/brand/representative.png" alt="Representante de MyGcover" fill sizes="(max-width: 768px) 100vw, (max-width: 1024px) 45vw, 40vw" className="object-cover object-center" />
                 </div>
               </div>
 
