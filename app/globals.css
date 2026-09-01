@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Ocultar badge "Powered by Netlify" */
+a[data-netlify-badge] { display: none !important; }
+
 :root {
   --background: #f8fbff;
   --foreground: #0f172a;
