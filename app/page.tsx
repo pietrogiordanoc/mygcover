@@ -417,7 +417,7 @@ export default function Home() {
             <div className="grid gap-6 lg:grid-cols-[1.3fr_0.7fr]">
               <div className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/5 p-3">
                 <div className="relative aspect-video overflow-hidden rounded-[1.25rem] bg-[#dfeeff] text-[#0b1f3a]">
-                  <Image src="/brand/youtube-bg.png" alt="Contenido educativo de MyGcover" fill className="object-cover" />
+                  <Image src="/brand/youtube-bg.png" alt="Contenido educativo de MyGcover" fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-br from-[#0a1d35]/35 via-[#0a1d35]/10 to-[#122f4f]/20" />
                   <div className="relative flex h-full items-center justify-center">
                     <div className="flex h-20 w-20 items-center justify-center rounded-full bg-white/80 text-[#1d5cdd] shadow-xl backdrop-blur-sm">
@@ -451,7 +451,7 @@ export default function Home() {
             <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
               <div className="rounded-[2rem] border border-slate-200 bg-white p-3 shadow-[0_18px_40px_rgba(11,31,58,0.08)]">
                 <div className="relative h-[430px] overflow-hidden rounded-[1.5rem] bg-slate-100">
-                  <Image src="/brand/office-vert.jpg" alt="Equipo MyGcover" fill className="object-cover" />
+                  <Image src="/brand/office-vert.jpg" alt="Equipo MyGcover" fill sizes="(max-width: 768px) 100vw, 40vw" className="object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0b1f3a]/70 via-[#0b1f3a]/15 to-transparent" />
                   <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between rounded-2xl border border-white/15 bg-white/10 p-4 text-white backdrop-blur-md">
                     <div>
