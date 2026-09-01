@@ -1,9 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 
 export default function AboutPage() {
   return (
-    <main className="container-shell py-16">
+    <>
+      <SiteHeader />
+      <main className="container-shell py-16">
       <div className="mx-auto max-w-4xl">
         <p className="protect-badge text-[#1d5cdd]">Sobre MyGcover</p>
         <h1 className="mt-4 text-4xl font-extrabold text-[#0b1f3a] md:text-6xl">Una orientación más humana</h1>
@@ -21,19 +25,20 @@ export default function AboutPage() {
           <div className="space-y-6 rounded-[2rem] border border-slate-200 bg-white p-8 shadow-[0_18px_40px_rgba(11,31,58,0.08)]">
             <div>
               <p className="text-sm uppercase tracking-[0.18em] text-slate-500">Perfil editable</p>
-              <p className="mt-2 text-2xl font-bold text-[#0b1f3a]">Nombre completo</p>
+              <p className="mt-2 text-2xl font-bold text-[#0b1f3a]">Pietro Giordano</p>
               <p className="mt-1 text-slate-600">Embajador de seguros</p>
             </div>
             <div className="grid gap-4 sm:grid-cols-2 text-sm text-slate-600">
               <div className="rounded-2xl bg-slate-50 p-4"><strong className="block text-[#0b1f3a]">Rol</strong> Embajador de seguros</div>
               <div className="rounded-2xl bg-slate-50 p-4"><strong className="block text-[#0b1f3a]">Áreas de enfoque</strong> Protección familiar y orientación</div>
-              <div className="rounded-2xl bg-slate-50 p-4"><strong className="block text-[#0b1f3a]">Estados / alcance</strong> Por definir</div>
               <div className="rounded-2xl bg-slate-50 p-4"><strong className="block text-[#0b1f3a]">Correo</strong> info@mygcover.com</div>
             </div>
             <Link href="/contacto" className="primary-button">Solicitar orientación</Link>
           </div>
         </div>
       </div>
-    </main>
+      </main>
+      <SiteFooter />
+    </>
   );
 }

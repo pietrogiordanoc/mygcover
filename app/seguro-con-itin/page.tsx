@@ -1,8 +1,12 @@
 import Link from "next/link";
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 
 export default function SeguroConItinPage() {
   return (
-    <main className="container-shell py-16">
+    <>
+      <SiteHeader />
+      <main className="container-shell py-16">
       <article className="mx-auto max-w-4xl rounded-[2rem] border border-slate-200 bg-white p-8 shadow-[0_18px_40px_rgba(11,31,58,0.08)]">
         <p className="protect-badge text-[#1d5cdd]">ITIN</p>
         <h1 className="mt-4 text-4xl font-extrabold text-[#0b1f3a] md:text-6xl">Seguro de vida con ITIN: opciones para hispanos en Estados Unidos.</h1>

@@ -1,3 +1,5 @@
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 "use client";
 
 import Link from "next/link";
@@ -9,7 +11,9 @@ const termOptions = ["10 años", "15 años", "20 años", "25 años", "30 años"]
 
 export default function SimulatorPage() {
   return (
-    <main className="container-shell py-16">
+    <>
+      <SiteHeader />
+      <main className="container-shell py-16">
       <div className="mx-auto max-w-5xl rounded-[2rem] border border-slate-200 bg-white p-8 shadow-[0_18px_40px_rgba(11,31,58,0.08)] md:p-10">
         <div className="mb-8 flex items-center justify-between gap-4">
           <div>

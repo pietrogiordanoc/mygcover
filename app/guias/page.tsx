@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 
 const guides = [
   { title: "Guía sencilla para entender un IUL", description: "Conceptos básicos clave para conocer cómo puede funcionar este tipo de producto.", readTime: "6 min" },
@@ -9,7 +11,9 @@ const guides = [
 
 export default function GuidesPage() {
   return (
-    <main className="container-shell py-16">
+    <>
+      <SiteHeader />
+      <main className="container-shell py-16">
       <div className="mx-auto max-w-5xl">
         <p className="protect-badge text-[#1d5cdd]">Guías y recursos</p>
         <h1 className="mt-4 text-4xl font-extrabold text-[#0b1f3a] md:text-6xl">Guías para entender mejor tus opciones.</h1>

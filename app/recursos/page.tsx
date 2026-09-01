@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 
 const articles = [
   "¿Qué es un seguro de vida y para qué sirve?",
@@ -13,7 +15,9 @@ const articles = [
 
 export default function ResourcesPage() {
   return (
-    <main className="container-shell py-16">
+    <>
+      <SiteHeader />
+      <main className="container-shell py-16">
       <div className="mx-auto max-w-5xl">
         <p className="protect-badge text-[#1d5cdd]">Recursos</p>
         <h1 className="mt-4 text-4xl font-extrabold text-[#0b1f3a] md:text-6xl">Contenido útil para tomar decisiones con más claridad.</h1>
