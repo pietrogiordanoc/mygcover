@@ -2,6 +2,10 @@
   command = "npm run build"
   publish = ".next"
 
+# Excluir el cache de Turbopack del escaneo de secrets (falso positivo).
+[build.environment]
+  SECRETS_SCAN_OMIT_PATHS = ".netlify/.next/cache"
+
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
