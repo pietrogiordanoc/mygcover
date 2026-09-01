@@ -155,18 +155,19 @@ export default function Home() {
     <>
       <SiteHeader />
       <main>
-        <section className="pt-8 pb-16 md:pt-10 md:pb-12">
+        <section className="relative isolate overflow-hidden py-16 md:py-20">
+          <Image src="/brand/family1.png" alt="Familia hispana frente a su hogar" fill sizes="100vw" className="-z-20 object-cover object-[65%_center]" priority />
+          <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#07182d]/95 via-[#0b1f3a]/82 to-[#0b1f3a]/25" />
           <div className="container-shell">
-            <div className="grid-hero items-center">
-              <div>
-                <p className="protect-badge mb-4 text-[#1d5cdd]">SEGUROS DE VIDA PARA HISPANOS EN ESTADOS UNIDOS</p>
-                <h1 className="max-w-[640px] text-balance text-4xl font-extrabold tracking-[-0.03em] text-[#0b1f3a] sm:text-5xl lg:text-6xl">
+            <div className="max-w-2xl">
+                <p className="protect-badge mb-4 text-[#9cc5ff]">SEGUROS DE VIDA PARA HISPANOS EN ESTADOS UNIDOS</p>
+                <h1 className="max-w-[640px] text-balance text-4xl font-extrabold tracking-[-0.03em] text-white sm:text-5xl lg:text-6xl">
                   Descubre la protección que tiene sentido para ti.
                 </h1>
-                <p className="mt-6 max-w-xl text-lg leading-8 text-slate-600">
+                <p className="mt-6 max-w-xl text-lg leading-8 text-white/90">
                   Responde unas preguntas sencillas y conoce qué tipos de protección podrías explorar según tu situación, tus objetivos y tu presupuesto.
                 </p>
-                <p className="mt-4 text-base font-medium text-[#143d8d]">
+                <p className="mt-4 text-base font-medium text-[#b8d5ff]">
                   Atención en español para personas y familias en Estados Unidos.
                 </p>
                 <div className="mt-8 flex flex-col gap-4 sm:flex-row">
@@ -177,8 +178,8 @@ export default function Home() {
                     Explorar mis opciones
                   </Link>
                 </div>
-                <p className="mt-5 text-sm text-slate-600">Solo toma 2 minutos · Sin costo · Sin compromiso</p>
-                <p className="mt-2 text-xs text-slate-500">
+                <p className="mt-5 text-sm text-white/90">Solo toma 2 minutos · Sin costo · Sin compromiso</p>
+                <p className="mt-2 text-xs text-white/70">
                   Los resultados son educativos y no garantizan elegibilidad, cobertura ni aprobación.
                 </p>
 
@@ -248,29 +249,6 @@ export default function Home() {
                     Continuar mi evaluación
                   </button>
                 </div>
-              </div>
-
-              <div className="hero-visual card-surface p-3 md:p-4">
-                <div className="relative h-full min-h-[500px] overflow-hidden rounded-[1.5rem] border border-white/80 bg-white/20 backdrop-blur-sm">
-                  <Image src="/brand/hero-bg.jpg" alt="Familia hispana en Estados Unidos" fill className="object-cover" priority />
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#08192c]/75 via-[#0a1d35]/40 to-[#edfaf3]/10" />
-                  <div className="absolute left-6 top-6 rounded-full border border-white/25 bg-white/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-white/80 backdrop-blur-sm">
-                    MyGcover
-                  </div>
-                  <div className="absolute right-6 top-6 rounded-full bg-white/10 p-2 text-white/80 backdrop-blur-sm">
-                    <BadgeCheck size={18} className="text-[#7ce2b1]" />
-                  </div>
-                  <div className="absolute bottom-6 left-6 right-6 rounded-[1.5rem] border border-white/15 bg-white/12 p-5 text-white shadow-[0_20px_45px_rgba(11,31,58,0.28)] backdrop-blur-md">
-                    <p className="text-xs uppercase tracking-[0.2em] text-blue-100">Protección para tu familia</p>
-                    <p className="mt-4 text-xl font-semibold leading-7 md:text-2xl">Protección para tu familia, tus ingresos y tu futuro.</p>
-                    <div className="mt-4 flex items-center gap-3 text-sm text-blue-100">
-                      <BadgeCheck size={16} className="text-[#7ce2b1]" />
-                      Protección clara para la vida real
-                    </div>
-                  </div>
-                  <div className="sr-only">Reemplazar posteriormente por una fotografía natural de una familia hispana en Estados Unidos, en un ambiente cotidiano y luminoso. Evitar apretón de manos, banderas grandes, poses corporativas y apariencia de fotografía genérica.</div>
-                </div>
-              </div>
             </div>
           </div>
         </section>
