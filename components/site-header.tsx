@@ -31,9 +31,6 @@ export function SiteHeader() {
         </nav>
 
         <div className="hidden items-center gap-4 lg:flex">
-          <button type="button" className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-600">
-            ES | EN
-          </button>
           <Link href="/evaluacion" className="primary-button px-5 py-3 text-sm">
             Comenzar evaluación
           </Link>

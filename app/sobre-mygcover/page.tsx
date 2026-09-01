@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export default function AboutPage() {
@@ -12,8 +13,8 @@ export default function AboutPage() {
 
         <div className="mt-10 grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_18px_40px_rgba(11,31,58,0.08)]">
-            <div className="h-[430px] rounded-[1.5rem] bg-gradient-to-br from-[#dfeeff] via-[#eef7ff] to-[#ebfaf3] p-6">
-              <div className="mx-auto h-full max-w-[260px] rounded-[2rem] bg-white/80 shadow-lg" />
+            <div className="h-[430px] overflow-hidden rounded-[1.5rem] bg-gradient-to-br from-[#dfeeff] via-[#eef7ff] to-[#ebfaf3]">
+              <Image src="/brand/me.png" alt="Pietro Giordano" width={520} height={430} className="h-full w-full object-cover object-top" />
             </div>
           </div>
 
