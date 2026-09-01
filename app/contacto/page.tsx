@@ -2,29 +2,36 @@
 
 import { useState } from "react";
 import { ArrowRight } from "lucide-react";
-import { insertLead } from "@/lib/supabase";
 
 const usStates = [
   "Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawái","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Misisipi","Missouri","Montana","Nebraska","Nevada","Nuevo Hampshire","Nueva Jersey","Nuevo México","Nueva York","Carolina del Norte","Dakota del Norte","Ohio","Oklahoma","Oregón","Pensilvania","Rhode Island","Carolina del Sur","Dakota del Sur","Tennessee","Texas","Utah","Vermont","Virginia","Washington","Virginia Occidental","Wisconsin","Wyoming","Washington D.C.",
 ];
 
 const objectiveOptions = [
-  "Proteger a mi familia",
-  "Conocer un IUL",
-  "Beneficios en vida",
-  "Gastos finales",
-  "Preparación para el futuro",
+  "Seguro de vida",
+  "IUL",
+  "Salud",
+  "Viaje",
   "No estoy seguro",
+];
+
+const countryOptions = [
+  "Estados Unidos",
+  "México",
+  "Colombia",
+  "República Dominicana",
+  "Venezuela",
+  "Otro país de Latinoamérica",
 ];
 
 export default function ContactPage() {
   const [form, setForm] = useState({
-    name: "",
+    fullName: "",
     phone: "",
     email: "",
     country: "Estados Unidos",
     state: "",
-    objective: objectiveOptions[0],
+    insuranceInterest: objectiveOptions[0],
     contactMethod: "WhatsApp",
     message: "",
     consent: false,
@@ -47,54 +54,59 @@ export default function ContactPage() {
       return;
     }
 
-    if (!form.name || !form.phone || !form.email || !form.consent) {
+    if (!form.fullName || !form.phone || !form.email || !form.consent) {
       setError("Completa los campos requeridos y acepta el consentimiento para continuar.");
+      return;
+    }
+
+    if (form.country === "Estados Unidos" && !form.state) {
+      setError("Selecciona tu estado para continuar.");
       return;
     }
 
     setIsSubmitting(true);
     setError(null);
 
-    const params = new URLSearchParams(window.location.search);
-    const utm = {
-      source: params.get("utm_source") ?? "",
-      medium: params.get("utm_medium") ?? "",
-      campaign: params.get("utm_campaign") ?? "",
-      term: params.get("utm_term") ?? "",
-      content: params.get("utm_content") ?? "",
-    };
-
     const payload = {
-      name: form.name,
+      full_name: form.fullName,
       phone: form.phone,
       email: form.email,
       country: form.country,
       state: form.country === "Estados Unidos" ? form.state : "",
-      objective: form.objective,
-      contact_method: form.contactMethod,
+      insurance_interest: form.insuranceInterest,
+      preferred_contact_method: form.contactMethod,
       message: form.message,
-      lead_type: "contact",
-      utm,
-      origin_url: typeof window !== "undefined" ? window.location.href : "",
-      created_at: new Date().toISOString(),
+      source: "contact_form",
+      consent_to_contact: form.consent,
+      honeypot,
     };
 
-    const result = await insertLead(payload);
+    let ok = false;
+    try {
+      const response = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      ok = response.ok;
+    } catch {
+      ok = false;
+    }
 
-    if (!result.ok) {
-      setError(result.message ?? "No pudimos guardar tu solicitud en este momento. Inténtalo de nuevo.");
+    if (!ok) {
+      setError("No pudimos guardar tu solicitud en este momento. Inténtalo de nuevo.");
       setIsSubmitting(false);
       return;
     }
 
-    setSuccess("Tu solicitud fue recibida correctamente. Un representante se pondrá en contacto contigo.");
+    setSuccess("Gracias. Recibimos tu solicitud y nos pondremos en contacto contigo.");
     setForm({
-      name: "",
+      fullName: "",
       phone: "",
       email: "",
       country: "Estados Unidos",
       state: "",
-      objective: objectiveOptions[0],
+      insuranceInterest: objectiveOptions[0],
       contactMethod: "WhatsApp",
       message: "",
       consent: false,
@@ -129,19 +141,23 @@ export default function ContactPage() {
 
             <div className="grid gap-5 md:grid-cols-2">
               <label className="space-y-2 text-sm font-medium text-slate-700">
-                Nombre
+                Nombre completo
                 <input
                   required
-                  value={form.name}
-                  onChange={(event) => handleChange("name", event.target.value)}
+                  minLength={2}
+                  maxLength={120}
+                  value={form.fullName}
+                  onChange={(event) => handleChange("fullName", event.target.value)}
                   className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3"
-                  placeholder="Tu nombre"
+                  placeholder="Tu nombre completo"
                 />
               </label>
               <label className="space-y-2 text-sm font-medium text-slate-700">
                 Teléfono
                 <input
                   required
+                  minLength={7}
+                  maxLength={32}
                   value={form.phone}
                   onChange={(event) => handleChange("phone", event.target.value)}
                   className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3"
@@ -156,6 +172,7 @@ export default function ContactPage() {
                 <input
                   type="email"
                   required
+                  maxLength={160}
                   value={form.email}
                   onChange={(event) => handleChange("email", event.target.value)}
                   className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3"
@@ -169,9 +186,9 @@ export default function ContactPage() {
                   onChange={(event) => handleChange("country", event.target.value)}
                   className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3"
                 >
-                  <option value="Estados Unidos">Estados Unidos</option>
-                  <option value="México">México</option>
-                  <option value="Otro país de América">Otro país de América</option>
+                  {countryOptions.map((country) => (
+                    <option key={country} value={country}>{country}</option>
+                  ))}
                 </select>
               </label>
             </div>
@@ -190,14 +207,25 @@ export default function ContactPage() {
                   ))}
                 </select>
               </label>
-            ) : null}
+            ) : (
+              <label className="space-y-2 text-sm font-medium text-slate-700">
+                Estado o provincia
+                <input
+                  value={form.state}
+                  onChange={(event) => handleChange("state", event.target.value)}
+                  maxLength={80}
+                  className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3"
+                  placeholder="Ejemplo: Antioquia"
+                />
+              </label>
+            )}
 
             <div className="grid gap-5 md:grid-cols-2">
               <label className="space-y-2 text-sm font-medium text-slate-700">
-                Objetivo principal
+                Interés
                 <select
-                  value={form.objective}
-                  onChange={(event) => handleChange("objective", event.target.value)}
+                  value={form.insuranceInterest}
+                  onChange={(event) => handleChange("insuranceInterest", event.target.value)}
                   className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3"
                 >
                   {objectiveOptions.map((option) => (
@@ -213,8 +241,8 @@ export default function ContactPage() {
                   className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3"
                 >
                   <option value="WhatsApp">WhatsApp</option>
-                  <option value="Llamada">Llamada</option>
-                  <option value="Correo electrónico">Correo electrónico</option>
+                  <option value="Telefono">Telefono</option>
+                  <option value="Email">Email</option>
                 </select>
               </label>
             </div>
@@ -224,6 +252,7 @@ export default function ContactPage() {
               <textarea
                 value={form.message}
                 onChange={(event) => handleChange("message", event.target.value)}
+                maxLength={1000}
                 className="min-h-28 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3"
                 placeholder="Cuéntanos brevemente sobre tu situación."
               />

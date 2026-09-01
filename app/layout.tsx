@@ -10,14 +10,15 @@ const manrope = Manrope({
 export const metadata: Metadata = {
   metadataBase: new URL("https://mygcover.com"),
   title: {
-    default: "MyGcover | Seguros de vida para hispanos en Estados Unidos",
+    default: "MyGcover | Protección de vida, salud y viajes en español, para toda América",
     template: "%s | MyGcover",
   },
   description:
-    "Explora opciones de seguro de vida, IUL, beneficios en vida y protección familiar. Evaluación inicial gratuita y orientación en español para hispanos en Estados Unidos.",
+    "Explora opciones de seguro de vida, IUL, salud, viaje, beneficios en vida y protección familiar. Evaluación inicial gratuita y orientación en español para ti y toda tu familia en Estados Unidos y Latinoamérica.",
   keywords: [
     "seguro de vida para hispanos",
     "seguro de vida en Estados Unidos",
+    "seguro de vida internacional",
     "IUL en español",
     "seguro de vida con ITIN",
     "beneficios en vida",
@@ -25,9 +26,9 @@ export const metadata: Metadata = {
     "gastos finales",
   ],
   openGraph: {
-    title: "MyGcover | Seguros de vida para hispanos en Estados Unidos",
+    title: "MyGcover | Protección de vida, salud y viajes en español, para toda América",
     description:
-      "Protección para cada etapa de tu vida. Educación, orientación y evaluación inicial para familias hispanas en Estados Unidos.",
+      "Protección para cada etapa de tu vida. Educación, orientación y evaluación inicial para ti y toda tu familia, en Estados Unidos y en otros países de América.",
     url: "https://mygcover.com",
     siteName: "MyGcover",
     locale: "es_MX",
@@ -35,9 +36,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "MyGcover | Seguros de vida para hispanos en Estados Unidos",
+    title: "MyGcover | Protección de vida, salud y viajes en español, para toda América",
     description:
-      "Orientación clara sobre seguros de vida, IUL, beneficios en vida y protección familiar para hispanos en Estados Unidos.",
+      "Orientación clara sobre seguros de vida, IUL, salud, viaje, beneficios en vida y protección familiar para ti y toda tu familia en América.",
   },
   icons: {
     icon: "/brand/avatar.png",

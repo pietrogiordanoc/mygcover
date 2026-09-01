@@ -3,7 +3,7 @@ import Link from "next/link";
 const guides = [
   { title: "Guía sencilla para entender un IUL", description: "Conceptos básicos clave para conocer cómo puede funcionar este tipo de producto.", readTime: "6 min" },
   { title: "7 preguntas antes de contratar un seguro de vida", description: "Aspectos importantes para revisar antes de tomar una decisión informada.", readTime: "8 min" },
-  { title: "Seguro de vida para hispanos en Estados Unidos", description: "Una guía útil para entender opciones disponibles y diferencias importantes.", readTime: "7 min" },
+  { title: "Seguro de vida para hispanos en Estados Unidos y América", description: "Una guía útil para entender opciones disponibles y diferencias importantes.", readTime: "7 min" },
   { title: "¿Es posible solicitar un seguro utilizando ITIN?", description: "Consideraciones importantes según el perfil y la situación migratoria.", readTime: "5 min" },
 ];
 

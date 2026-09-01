@@ -22,7 +22,7 @@ import { SiteFooter } from "@/components/site-footer";
 
 const trustPillars = [
   "Atención en español",
-  "Enfoque en el mercado estadounidense",
+  "Presencia en Estados Unidos y toda América",
   "Evaluación inicial sin costo",
   "Orientación según tu situación",
 ];
@@ -160,27 +160,30 @@ export default function Home() {
           <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#07182d]/95 via-[#0b1f3a]/82 to-[#0b1f3a]/25" />
           <div className="container-shell">
             <div className="max-w-2xl">
-                <p className="protect-badge mb-4 text-[#9cc5ff]">SEGUROS DE VIDA PARA HISPANOS EN ESTADOS UNIDOS</p>
+                <p className="protect-badge mb-4 text-[#9cc5ff]">PROTECCIÓN NACIONAL E INTERNACIONAL</p>
                 <h1 className="max-w-[640px] text-balance text-4xl font-extrabold tracking-[-0.03em] text-white sm:text-5xl lg:text-6xl">
-                  Descubre la protección que tiene sentido para ti.
+                  Seguros de vida, salud y viaje para Estados Unidos y Latinoamérica
                 </h1>
                 <p className="mt-6 max-w-xl text-lg leading-8 text-white/90">
-                  Responde unas preguntas sencillas y conoce qué tipos de protección podrías explorar según tu situación, tus objetivos y tu presupuesto.
+                  Vivas en Estados Unidos o en otro país de Latinoamérica, te ayudamos a explorar opciones de protección nacionales e internacionales según tu ubicación, objetivos y elegibilidad.
                 </p>
-                <p className="mt-4 text-base font-medium text-[#b8d5ff]">
-                  Atención en español para personas y familias en Estados Unidos.
+                <p className="mt-4 max-w-xl text-base font-semibold text-[#b8d5ff]">
+                  También ofrecemos opciones de seguro de vida internacional para personas que residen fuera de Estados Unidos.
+                </p>
+                <p className="mt-4 text-base font-medium text-white/90">
+                  Explora opciones de protección según tu país, tus necesidades y la etapa de vida en la que te encuentras. Orientación personalizada en español.
                 </p>
                 <div className="mt-8 flex flex-col gap-4 sm:flex-row">
                   <Link href="/evaluacion" className="primary-button">
-                    Comenzar evaluación gratuita <ArrowRight size={18} />
+                    Descubrir mis opciones <ArrowRight size={18} />
                   </Link>
-                  <Link href="/simulador" className="secondary-button">
-                    Explorar mis opciones
+                  <Link href="/contacto" className="secondary-button">
+                    Hablar con un asesor
                   </Link>
                 </div>
-                <p className="mt-5 text-sm text-white/90">Solo toma 2 minutos · Sin costo · Sin compromiso</p>
+                <p className="mt-5 text-sm font-medium text-white/90">Vida · IUL · Salud · Gastos finales · Beneficios en vida · Viajes</p>
                 <p className="mt-2 text-xs text-white/70">
-                  Los resultados son educativos y no garantizan elegibilidad, cobertura ni aprobación.
+                  La disponibilidad de productos, coberturas y requisitos varía según el país, el estado, la aseguradora y la elegibilidad.
                 </p>
 
                 <div className="mt-10 rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-[0_18px_40px_rgba(11,31,58,0.06)]">
@@ -270,7 +273,7 @@ export default function Home() {
             <div className="mx-auto mb-12 max-w-3xl text-center">
               <p className="protect-badge text-[#1d5cdd]">PROTECCIÓN</p>
               <h2 className="mt-4 text-3xl font-extrabold text-[#0b1f3a] md:text-5xl">
-                Protección pensada para la vida en Estados Unidos
+                Protección pensada para ti y toda tu familia en América
               </h2>
               <p className="mt-4 text-lg text-slate-600">
                 Conoce soluciones que pueden ayudar a proteger a tu familia, tus ingresos y lo que estás construyendo.
@@ -383,7 +386,7 @@ export default function Home() {
                 <p className="protect-badge text-blue-200">VIDEO Y EDUCACIÓN</p>
                 <h2 className="mt-3 text-3xl font-extrabold md:text-5xl">Seguros explicados en español</h2>
                 <p className="mt-4 max-w-2xl text-lg text-blue-100">
-                  Contenido sencillo para comprender seguros de vida, IUL, beneficios en vida y opciones para hispanos en Estados Unidos.
+                  Contenido sencillo para comprender seguros de vida, IUL, salud, viaje, beneficios en vida y opciones para hispanos en Estados Unidos y toda América.
                 </p>
               </div>
               <div className="flex flex-col gap-3 sm:flex-row">
@@ -409,7 +412,7 @@ export default function Home() {
                 {[
                   "¿Qué debes saber antes de comparar opciones de protección?",
                   "Beneficios en vida: cuándo pueden tener sentido.",
-                  "Seguro de vida para familias en Estados Unidos.",
+                  "Seguro de vida para familias en Estados Unidos y América Latina.",
                 ].map((video, index) => (
                   <div key={video} className="rounded-[1.25rem] border border-white/10 bg-white/5 p-4">
                     <div className="mb-3 flex h-20 items-center justify-center rounded-xl bg-gradient-to-r from-[#dfeeff] to-[#dff8eb] text-[#0b1f3a]">

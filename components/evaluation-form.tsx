@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { ArrowLeft, ArrowRight, CheckCircle2, ShieldCheck } from "lucide-react";
@@ -72,47 +72,66 @@ const initialForm = {
   status: "",
 };
 
+const leadInterestOptions = ["Seguro de vida", "IUL", "Salud", "Viaje", "No estoy seguro"] as const;
+const leadContactMethods = ["Telefono", "WhatsApp", "Email"] as const;
+
 export default function EvaluationForm() {
   const searchParams = useSearchParams();
   const [stepIndex, setStepIndex] = useState(0);
   const [answers, setAnswers] = useState(initialForm);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [leadForm, setLeadForm] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+    country: "Estados Unidos",
+    state: "",
+    insuranceInterest: "No estoy seguro" as (typeof leadInterestOptions)[number],
+    preferredContactMethod: "WhatsApp" as (typeof leadContactMethods)[number],
+    message: "",
+    consent: false,
+    honeypot: "",
+  });
+  const [leadError, setLeadError] = useState<string | null>(null);
+  const [leadSuccess, setLeadSuccess] = useState<string | null>(null);
+  const [isLeadSubmitting, setIsLeadSubmitting] = useState(false);
 
   useEffect(() => {
     const countryFromUrl = searchParams.get("country") ?? "";
     const stateFromUrl = searchParams.get("state") ?? "";
-
-    if (countryFromUrl) {
-      setAnswers((prev) => ({ ...prev, country: countryFromUrl }));
-    }
-
-    if (stateFromUrl) {
-      setAnswers((prev) => ({ ...prev, state: stateFromUrl }));
-    }
+    let savedCountry = "";
+    let savedState = "";
 
     const saved = sessionStorage.getItem("mygcover-location");
-    if (!saved) {
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved) as { country?: string; state?: string };
+        savedCountry = parsed.country ?? "";
+        savedState = parsed.state ?? "";
+      } catch {
+        // ignore malformed storage
+      }
+    }
+
+    const country = countryFromUrl || savedCountry;
+    const state = stateFromUrl || savedState;
+
+    if (!country && !state) {
       return;
     }
 
-    try {
-      const parsed = JSON.parse(saved) as { country?: string; state?: string };
-      if (parsed.country) {
-        setAnswers((prev) => ({ ...prev, country: parsed.country ?? "" }));
-      }
-      if (parsed.state) {
-        setAnswers((prev) => ({ ...prev, state: parsed.state ?? "" }));
-      }
-    } catch {
-      // ignore malformed storage
-    }
+    queueMicrotask(() => {
+      setAnswers((prev) => ({
+        ...prev,
+        country: country || prev.country,
+        state: state || prev.state,
+      }));
+    });
   }, [searchParams]);
 
   const currentStep = steps[stepIndex];
   const progress = ((stepIndex + 1) / steps.length) * 100;
-
-  const requireState = useMemo(() => answers.country === "Estados Unidos", [answers.country]);
 
   const updateAnswer = (key: keyof typeof answers, value: string | string[]) => {
     setAnswers((prev) => ({ ...prev, [key]: value }));
@@ -146,6 +165,11 @@ export default function EvaluationForm() {
     if (stepIndex < steps.length - 1) {
       setStepIndex((prev) => prev + 1);
     } else {
+      setLeadForm((prev) => ({
+        ...prev,
+        country: answers.country || prev.country,
+        state: answers.state || prev.state,
+      }));
       setSubmitted(true);
     }
   };
@@ -153,6 +177,74 @@ export default function EvaluationForm() {
   const prevStep = () => {
     setStepIndex((prev) => Math.max(prev - 1, 0));
     setError(null);
+  };
+
+  const updateLeadField = (field: keyof typeof leadForm, value: string | boolean) => {
+    setLeadForm((prev) => ({ ...prev, [field]: value }));
+    setLeadError(null);
+    setLeadSuccess(null);
+  };
+
+  const submitLead = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!leadForm.fullName || !leadForm.phone || !leadForm.email || !leadForm.consent) {
+      setLeadError("Completa los campos requeridos y acepta el consentimiento para continuar.");
+      return;
+    }
+
+    if (leadForm.country === "Estados Unidos" && !leadForm.state) {
+      setLeadError("Selecciona tu estado para continuar.");
+      return;
+    }
+
+    setIsLeadSubmitting(true);
+    setLeadError(null);
+
+    let ok = false;
+    try {
+      const response = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          full_name: leadForm.fullName,
+          email: leadForm.email,
+          phone: leadForm.phone,
+          country: leadForm.country,
+          state: leadForm.state,
+          insurance_interest: leadForm.insuranceInterest,
+          preferred_contact_method: leadForm.preferredContactMethod,
+          message: leadForm.message,
+          source: "evaluation_form",
+          consent_to_contact: leadForm.consent,
+          honeypot: leadForm.honeypot,
+        }),
+      });
+      ok = response.ok;
+    } catch {
+      ok = false;
+    }
+
+    if (!ok) {
+      setLeadError("No pudimos guardar tu solicitud en este momento. Intentalo de nuevo.");
+      setIsLeadSubmitting(false);
+      return;
+    }
+
+    setLeadSuccess("Gracias. Recibimos tu solicitud y nos pondremos en contacto contigo.");
+    setLeadForm({
+      fullName: "",
+      email: "",
+      phone: "",
+      country: answers.country || "Estados Unidos",
+      state: answers.state || "",
+      insuranceInterest: "No estoy seguro",
+      preferredContactMethod: "WhatsApp",
+      message: "",
+      consent: false,
+      honeypot: "",
+    });
+    setIsLeadSubmitting(false);
   };
 
   if (submitted) {
@@ -167,59 +259,154 @@ export default function EvaluationForm() {
           <p className="mt-4 text-lg text-slate-600">
             Déjanos tus datos para guardar tu resultado y mostrarte los próximos pasos.
           </p>
-          <form className="mt-8 space-y-5">
-            <div className="grid gap-5 md:grid-cols-2">
-              <label className="space-y-2 text-sm font-medium text-slate-700">
-                Nombre
-                <input className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3" placeholder="Tu nombre" />
-              </label>
-              <label className="space-y-2 text-sm font-medium text-slate-700">
-                Apellido
-                <input className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3" placeholder="Tu apellido" />
-              </label>
-            </div>
+          <form className="mt-8 space-y-5" onSubmit={submitLead} noValidate>
+            <input
+              type="text"
+              value={leadForm.honeypot}
+              onChange={(event) => updateLeadField("honeypot", event.target.value)}
+              className="hidden"
+              tabIndex={-1}
+              autoComplete="off"
+            />
 
             <div className="grid gap-5 md:grid-cols-2">
+              <label className="space-y-2 text-sm font-medium text-slate-700">
+                Nombre completo
+                <input
+                  required
+                  minLength={2}
+                  maxLength={120}
+                  value={leadForm.fullName}
+                  onChange={(event) => updateLeadField("fullName", event.target.value)}
+                  className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3"
+                  placeholder="Tu nombre completo"
+                />
+              </label>
               <label className="space-y-2 text-sm font-medium text-slate-700">
                 Correo electrónico
-                <input type="email" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3" placeholder="correo@ejemplo.com" />
-              </label>
-              <label className="space-y-2 text-sm font-medium text-slate-700">
-                Teléfono
-                <input type="tel" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3" placeholder="(555) 123-4567" />
+                <input
+                  type="email"
+                  required
+                  maxLength={160}
+                  value={leadForm.email}
+                  onChange={(event) => updateLeadField("email", event.target.value)}
+                  className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3"
+                  placeholder="correo@ejemplo.com"
+                />
               </label>
             </div>
 
             <div className="grid gap-5 md:grid-cols-2">
               <label className="space-y-2 text-sm font-medium text-slate-700">
-                Método de contacto preferido
-                <select className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
-                  <option>WhatsApp</option>
-                  <option>Llamada</option>
-                  <option>Correo electrónico</option>
+                Teléfono
+                <input
+                  type="tel"
+                  required
+                  minLength={7}
+                  maxLength={32}
+                  value={leadForm.phone}
+                  onChange={(event) => updateLeadField("phone", event.target.value)}
+                  className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3"
+                  placeholder="(555) 123-4567"
+                />
+              </label>
+              <label className="space-y-2 text-sm font-medium text-slate-700">
+                País
+                <input
+                  required
+                  maxLength={80}
+                  value={leadForm.country}
+                  onChange={(event) => updateLeadField("country", event.target.value)}
+                  className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3"
+                  placeholder="Tu país"
+                />
+              </label>
+            </div>
+
+            {leadForm.country === "Estados Unidos" ? (
+              <label className="space-y-2 text-sm font-medium text-slate-700">
+                Estado
+                <select
+                  value={leadForm.state}
+                  onChange={(event) => updateLeadField("state", event.target.value)}
+                  className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3"
+                >
+                  <option value="">Selecciona tu estado</option>
+                  {states.map((state) => (
+                    <option key={state} value={state}>{state}</option>
+                  ))}
+                </select>
+              </label>
+            ) : (
+              <label className="space-y-2 text-sm font-medium text-slate-700">
+                Estado o provincia
+                <input
+                  value={leadForm.state}
+                  onChange={(event) => updateLeadField("state", event.target.value)}
+                  maxLength={80}
+                  className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3"
+                  placeholder="Ejemplo: Antioquia"
+                />
+              </label>
+            )}
+
+            <div className="grid gap-5 md:grid-cols-2">
+              <label className="space-y-2 text-sm font-medium text-slate-700">
+                Interés
+                <select
+                  value={leadForm.insuranceInterest}
+                  onChange={(event) => updateLeadField("insuranceInterest", event.target.value)}
+                  className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3"
+                >
+                  {leadInterestOptions.map((interest) => (
+                    <option key={interest} value={interest}>{interest}</option>
+                  ))}
                 </select>
               </label>
               <label className="space-y-2 text-sm font-medium text-slate-700">
-                Mejor horario para contactar
-                <select className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
-                  <option>Mañana</option>
-                  <option>Tarde</option>
-                  <option>Noche</option>
+                Método de contacto preferido
+                <select
+                  value={leadForm.preferredContactMethod}
+                  onChange={(event) => updateLeadField("preferredContactMethod", event.target.value)}
+                  className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3"
+                >
+                  {leadContactMethods.map((method) => (
+                    <option key={method} value={method}>{method}</option>
+                  ))}
                 </select>
               </label>
             </div>
 
+            <label className="space-y-2 text-sm font-medium text-slate-700">
+              Mensaje opcional
+              <textarea
+                value={leadForm.message}
+                onChange={(event) => updateLeadField("message", event.target.value)}
+                maxLength={1000}
+                className="min-h-28 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3"
+                placeholder="Cuéntanos brevemente sobre tu situación."
+              />
+            </label>
+
             <label className="flex items-start gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
-              <input type="checkbox" className="mt-1 h-4 w-4" />
+              <input
+                type="checkbox"
+                checked={leadForm.consent}
+                onChange={(event) => updateLeadField("consent", event.target.checked)}
+                className="mt-1 h-4 w-4"
+              />
               <span>
-                Autorizo a MyGcover y a sus representantes a contactarme por teléfono, mensaje de texto, WhatsApp o correo electrónico en relación con mi solicitud de información. Entiendo que esta autorización no constituye una solicitud formal de seguro ni garantiza elegibilidad o aprobación.
+                Autorizo a MyGcover y a sus representantes a contactarme por telefono, mensaje de texto, WhatsApp o correo electronico en relacion con mi solicitud de informacion. Entiendo que esta autorizacion no constituye una solicitud formal de seguro ni garantiza elegibilidad o aprobacion.
               </span>
             </label>
 
+            {leadError ? <p className="text-sm font-medium text-red-600">{leadError}</p> : null}
+            {leadSuccess ? <p className="text-sm font-medium text-emerald-600">{leadSuccess}</p> : null}
+
             <div className="flex items-center justify-between gap-4 pt-4">
               <Link href="/privacidad" className="text-sm font-medium text-[#1d5cdd] underline underline-offset-4">Política de Privacidad</Link>
-              <button type="button" className="primary-button">
-                Guardar mi resultado
+              <button type="submit" className="primary-button" disabled={isLeadSubmitting}>
+                {isLeadSubmitting ? "Enviando..." : "Guardar mi resultado"}
               </button>
             </div>
           </form>
