@@ -137,14 +137,19 @@ const faqList = [
 
 export default function Home() {
   const [activeSlide, setActiveSlide] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
+    if (isPaused) {
+      return undefined;
+    }
+
     const timer = window.setInterval(() => {
       setActiveSlide((current) => (current + 1) % heroSlides.length);
     }, 5000);
 
     return () => window.clearInterval(timer);
-  }, []);
+  }, [isPaused]);
 
   const currentSlide = heroSlides[activeSlide];
 
@@ -173,15 +178,20 @@ export default function Home() {
             ))}
           </div>
           <div className="absolute inset-0 bg-gradient-to-r from-[#07182d]/95 via-[#0b1f3a]/82 to-[#0b1f3a]/25" />
-          <div className="container-shell relative">
+          <div className="container-shell relative" onMouseEnter={() => setIsPaused(true)} onMouseLeave={() => setIsPaused(false)}>
             <div className="max-w-2xl">
-              <div className="mb-5 flex gap-2">
+              <div className="mb-5 flex gap-2" onMouseEnter={() => setIsPaused(true)} onMouseLeave={() => setIsPaused(false)}>
                 {heroSlides.map((slide, index) => (
                   <button
                     key={slide.label}
                     type="button"
                     aria-label={`Ver slide ${slide.label}`}
-                    onClick={() => setActiveSlide(index)}
+                    onClick={() => {
+                      setActiveSlide(index);
+                      setIsPaused(true);
+                    }}
+                    onFocus={() => setIsPaused(true)}
+                    onBlur={() => setIsPaused(false)}
                     className={`h-2.5 rounded-full transition-all ${
                       index === activeSlide ? "w-10 bg-white" : "w-2.5 bg-white/50 hover:bg-white/80"
                     }`}
