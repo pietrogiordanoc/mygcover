@@ -4,7 +4,7 @@ import { leadSchema } from "@/lib/lead-schema";
 import { insertLeadServer } from "@/lib/supabase-server";
 import { isRateLimited } from "@/lib/rate-limit";
 
-const NOTIFY_FROM = process.env.RESEND_FROM_EMAIL || "MyGCover <onboarding@resend.dev>";
+const NOTIFY_FROM = process.env.RESEND_FROM_EMAIL || "MyGCover <info@mygcover.com>";
 const NOTIFY_TO = process.env.NOTIFY_TO_EMAIL || "info@mygcover.com";
 
 async function sendLeadNotification(lead: {
@@ -119,9 +119,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: false, message: GENERIC_ERROR }, { status: 502 });
   }
 
-  // No esperamos la notificación para no bloquear la respuesta al usuario,
-  // pero sí capturamos los errores para poder depurarlos en el servidor.
-  void sendLeadNotification(lead);
+  // Esperamos la notificación: en funciones serverless, una promesa sin await
+  // puede quedar interrumpida si el runtime cierra el proceso tras responder.
+  await sendLeadNotification(lead);
 
   return NextResponse.json({ ok: true });
 }
