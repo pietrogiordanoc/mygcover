@@ -1,6 +1,9 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import { Menu } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import { useState } from "react";
 
 const navItems = [
   { label: "Inicio", href: "/" },
@@ -12,6 +15,8 @@ const navItems = [
 ];
 
 export function SiteHeader() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
     <header className="sticky top-0 z-50">
       <div className="border-b border-slate-700/50 bg-[#0b1f3a] text-white">
@@ -26,7 +31,7 @@ export function SiteHeader() {
 
       <div className="border-b border-slate-200/80 bg-white/85 backdrop-blur-xl">
         <div className="container-shell flex h-20 items-center justify-between gap-4">
-          <Link href="/" className="flex items-center gap-3" aria-label="MyGcover inicio">
+          <Link href="/" className="flex items-center gap-3" aria-label="MyGcover inicio" onClick={() => setIsMenuOpen(false)}>
             <div className="flex h-11 w-28 items-center justify-center overflow-hidden rounded-xl bg-white ring-1 ring-slate-200">
               <Image src="/brand/logo.png" alt="MyGcover" width={160} height={44} priority className="h-auto w-full object-contain" />
             </div>
@@ -49,11 +54,36 @@ export function SiteHeader() {
           <button
             type="button"
             className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 lg:hidden"
-            aria-label="Abrir menú"
+            aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
+            onClick={() => setIsMenuOpen((prev) => !prev)}
           >
-            <Menu size={18} />
+            {isMenuOpen ? <X size={18} /> : <Menu size={18} />}
           </button>
         </div>
+
+        {isMenuOpen && (
+          <div className="border-t border-slate-200 bg-white lg:hidden">
+            <nav className="container-shell flex flex-col py-3" aria-label="Navegación móvil">
+              {navItems.map((item) => (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  onClick={() => setIsMenuOpen(false)}
+                  className="px-2 py-3 text-base font-medium text-slate-700 transition hover:text-[#1d5cdd]"
+                >
+                  {item.label}
+                </Link>
+              ))}
+              <Link
+                href="/evaluacion"
+                onClick={() => setIsMenuOpen(false)}
+                className="primary-button mt-3 w-full justify-center"
+              >
+                Comenzar evaluación
+              </Link>
+            </nav>
+          </div>
+        )}
       </div>
     </header>
   );
