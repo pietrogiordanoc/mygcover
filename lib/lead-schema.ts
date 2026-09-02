@@ -10,7 +10,7 @@ export const leadSchema = z.object({
   insurance_interest: z.enum(["Seguro de vida", "IUL", "Salud", "Viaje", "No estoy seguro"]),
   preferred_contact_method: z.enum(["Telefono", "WhatsApp", "Email"]),
   message: z.string().trim().max(1000).optional().default(""),
-  source: z.enum(["contact_form", "evaluation_form"]),
+  source: z.enum(["contact_form", "evaluation_form", "header_call_me"]),
   consent_to_contact: z.literal(true),
   honeypot: z.string().max(0).optional().default(""),
   turnstileToken: z.string().optional().default(""),
