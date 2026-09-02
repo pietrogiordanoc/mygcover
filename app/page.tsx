@@ -12,7 +12,9 @@ import {
   HeartHandshake,
   HeartPulse,
   MessageCircleMore,
+  Pause,
   Plane,
+  Play,
   ShieldCheck,
   Sparkles,
   TrendingUp,
@@ -180,7 +182,16 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-r from-[#07182d]/95 via-[#0b1f3a]/82 to-[#0b1f3a]/25" />
           <div className="container-shell relative" onMouseEnter={() => setIsPaused(true)} onMouseLeave={() => setIsPaused(false)}>
             <div className="max-w-2xl">
-              <div className="mb-5 flex gap-2" onMouseEnter={() => setIsPaused(true)} onMouseLeave={() => setIsPaused(false)}>
+              <div className="mb-5 flex items-center gap-3" onMouseEnter={() => setIsPaused(true)} onMouseLeave={() => setIsPaused(false)}>
+                <button
+                  type="button"
+                  onClick={() => setIsPaused((prev) => !prev)}
+                  aria-label={isPaused ? "Reanudar carrusel" : "Pausar carrusel"}
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-white/40 bg-white/10 text-white shadow-md backdrop-blur-sm transition hover:bg-white/15"
+                >
+                  {isPaused ? <Play size={16} className="ml-0.5" /> : <Pause size={16} />}
+                </button>
+
                 {heroSlides.map((slide, index) => (
                   <button
                     key={slide.label}
