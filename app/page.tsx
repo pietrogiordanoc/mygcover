@@ -45,13 +45,6 @@ const heroSlides = [
   },
 ];
 
-const trustPillars = [
-  "Atención en español",
-  "Presencia en Estados Unidos y toda América",
-  "Evaluación inicial sin costo",
-  "Orientación según tu situación",
-];
-
 const valueCards = [
   {
     title: "Claridad",
@@ -215,18 +208,6 @@ export default function Home() {
               <p className="mt-2 text-xs text-white/70">
                 La disponibilidad de productos, coberturas y requisitos varía según el país, el estado, la aseguradora y la elegibilidad.
               </p>
-            </div>
-          </div>
-        </section>
-
-        <section className="border-y border-slate-200/80 bg-white/70">
-          <div className="container-shell py-5">
-            <div className="grid gap-3 text-center md:grid-cols-4">
-              {trustPillars.map((item) => (
-                <div key={item} className="rounded-full border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-700">
-                  {item}
-                </div>
-              ))}
             </div>
           </div>
         </section>
