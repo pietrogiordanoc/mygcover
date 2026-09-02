@@ -346,7 +346,7 @@ export default function Home() {
                   Escuchamos tu situación, explicamos las alternativas disponibles y te acompañamos durante el proceso cuando decides avanzar.
                 </p>
                 <div className="mt-8 rounded-[1.5rem] border border-slate-200 bg-white p-6">
-                  <p className="mt-2 text-xl font-bold text-[#0b1f3a]">Agente de Seguros Internacional, sin licenciado</p>
+                  <p className="mt-2 text-xl font-bold text-[#0b1f3a]">Agente de Seguros Internacional</p>
                   <p className="mt-1 text-slate-600">Pietro Giordano</p>
                   <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                     <Link href="/contacto" className="secondary-button">Conocer más</Link>

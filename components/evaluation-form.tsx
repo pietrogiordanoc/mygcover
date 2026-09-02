@@ -469,13 +469,13 @@ export default function EvaluationForm() {
         )}
 
         {currentStep.type === "single" && currentStep.id !== "country" && (
-          <div className="mt-8 grid gap-4">
+          <div className="mt-8 grid gap-3">
             {currentStep.options.map((option) => (
               <button
                 key={option}
                 type="button"
                 onClick={() => updateAnswer(currentStep.id as keyof typeof answers, option)}
-                className={`flex w-full items-center justify-between rounded-2xl border px-5 py-4 text-left text-base font-medium transition ${answers[currentStep.id as keyof typeof answers] === option ? "border-[#1d5cdd] bg-[#edf5ff] text-[#0b1f3a]" : "border-slate-200 bg-slate-50 text-slate-700 hover:border-slate-300"}`}
+                className={`flex w-full items-center justify-between rounded-2xl border px-4 py-3 text-left text-base font-medium transition ${answers[currentStep.id as keyof typeof answers] === option ? "border-[#1d5cdd] bg-[#edf5ff] text-[#0b1f3a]" : "border-slate-200 bg-slate-50 text-slate-700 hover:border-slate-300"}`}
               >
                 <span>{option}</span>
                 <span className="h-5 w-5 rounded-full border border-current" />
@@ -485,7 +485,7 @@ export default function EvaluationForm() {
         )}
 
         {currentStep.type === "multi" && (
-          <div className="mt-8 grid gap-4">
+          <div className="mt-8 grid gap-3">
             {currentStep.options.map((option) => {
               const checked = answers.goal.includes(option);
               return (
@@ -498,7 +498,7 @@ export default function EvaluationForm() {
                       : [...answers.goal, option];
                     updateAnswer("goal", nextValues);
                   }}
-                  className={`flex w-full items-center justify-between rounded-2xl border px-5 py-4 text-left text-base font-medium transition ${checked ? "border-[#1d5cdd] bg-[#edf5ff] text-[#0b1f3a]" : "border-slate-200 bg-slate-50 text-slate-700 hover:border-slate-300"}`}
+                  className={`flex w-full items-center justify-between rounded-2xl border px-4 py-3 text-left text-base font-medium transition ${checked ? "border-[#1d5cdd] bg-[#edf5ff] text-[#0b1f3a]" : "border-slate-200 bg-slate-50 text-slate-700 hover:border-slate-300"}`}
                 >
                   <span>{option}</span>
                   <span className={`flex h-5 w-5 items-center justify-center rounded-full border ${checked ? "border-[#1d5cdd] bg-[#1d5cdd] text-white" : "border-slate-400"}`}>
@@ -511,13 +511,13 @@ export default function EvaluationForm() {
         )}
 
         {currentStep.id === "country" && (
-          <div className="mt-8 grid gap-4">
+          <div className="mt-8 grid gap-3">
             {currentStep.options.map((option) => (
               <button
                 key={option}
                 type="button"
                 onClick={() => updateAnswer("country", option)}
-                className={`flex w-full items-center justify-between rounded-2xl border px-5 py-4 text-left text-base font-medium transition ${answers.country === option ? "border-[#1d5cdd] bg-[#edf5ff] text-[#0b1f3a]" : "border-slate-200 bg-slate-50 text-slate-700 hover:border-slate-300"}`}
+                className={`flex w-full items-center justify-between rounded-2xl border px-4 py-3 text-left text-base font-medium transition ${answers.country === option ? "border-[#1d5cdd] bg-[#edf5ff] text-[#0b1f3a]" : "border-slate-200 bg-slate-50 text-slate-700 hover:border-slate-300"}`}
               >
                 <span>{option}</span>
                 <span className="h-5 w-5 rounded-full border border-current" />
