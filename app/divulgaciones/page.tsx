@@ -16,5 +16,7 @@ export default function DisclosuresPage() {
         </div>
       </article>
     </main>
+      <SiteFooter />
+    </>
   );
 }

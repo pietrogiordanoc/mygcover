@@ -15,5 +15,7 @@ export default function TermsPage() {
         </div>
       </article>
     </main>
+      <SiteFooter />
+    </>
   );
 }

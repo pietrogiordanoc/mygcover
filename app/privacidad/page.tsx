@@ -16,5 +16,7 @@ export default function PrivacyPage() {
         </div>
       </article>
     </main>
+      <SiteFooter />
+    </>
   );
 }

@@ -33,5 +33,7 @@ export default function ResourcesPage() {
         </div>
       </div>
     </main>
+      <SiteFooter />
+    </>
   );
 }

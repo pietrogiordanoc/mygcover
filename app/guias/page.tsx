@@ -30,5 +30,7 @@ export default function GuidesPage() {
         </div>
       </div>
     </main>
+      <SiteFooter />
+    </>
   );
 }

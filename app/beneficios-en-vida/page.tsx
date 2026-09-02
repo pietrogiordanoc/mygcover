@@ -26,5 +26,7 @@ export default function BenefitsPage() {
         <Link href="/evaluacion" className="primary-button mt-10">Comenzar evaluación</Link>
       </article>
     </main>
+      <SiteFooter />
+    </>
   );
 }

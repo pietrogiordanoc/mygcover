@@ -37,5 +37,7 @@ export default function SeguroDeVidaPage() {
         <Link href="/evaluacion" className="primary-button mt-10">Comenzar evaluación gratuita</Link>
       </article>
     </main>
+      <SiteFooter />
+    </>
   );
 }

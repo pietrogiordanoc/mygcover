@@ -16,5 +16,7 @@ export default function FinalExpensesPage() {
         <Link href="/evaluacion" className="primary-button mt-10">Evaluar mi caso</Link>
       </article>
     </main>
+      <SiteFooter />
+    </>
   );
 }

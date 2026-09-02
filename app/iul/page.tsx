@@ -21,5 +21,7 @@ export default function IulPage() {
         <Link href="/evaluacion" className="primary-button mt-10">Solicitar orientación personalizada</Link>
       </article>
     </main>
+      <SiteFooter />
+    </>
   );
 }

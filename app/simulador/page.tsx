@@ -1,7 +1,7 @@
-import { SiteHeader } from "@/components/site-header";
-import { SiteFooter } from "@/components/site-footer";
 "use client";
 
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 import Link from "next/link";
 import { ArrowRight, CircleDollarSign, ShieldCheck } from "lucide-react";
 
@@ -112,5 +112,7 @@ export default function SimulatorPage() {
         </div>
       </div>
     </main>
+      <SiteFooter />
+    </>
   );
 }

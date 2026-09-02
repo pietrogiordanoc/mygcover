@@ -16,5 +16,7 @@ export default function SeguroConItinPage() {
         <Link href="/evaluacion" className="primary-button mt-10">Solicitar orientación</Link>
       </article>
     </main>
+      <SiteFooter />
+    </>
   );
 }
