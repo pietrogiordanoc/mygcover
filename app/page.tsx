@@ -346,54 +346,6 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="bg-[#0b1f3a] py-20 text-white">
-          <div className="container-shell">
-            <div className="mb-10 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-              <div>
-                <p className="protect-badge text-blue-200">VIDEO Y EDUCACIÓN</p>
-                <h2 className="mt-3 text-3xl font-extrabold md:text-5xl">Seguros explicados en español</h2>
-                <p className="mt-4 max-w-2xl text-lg text-blue-100">
-                  Contenido sencillo para comprender seguros de vida, IUL, salud, viaje, beneficios en vida y opciones para hispanos en Estados Unidos y toda América.
-                </p>
-              </div>
-              <div className="flex flex-col gap-3 sm:flex-row">
-                <Link href="https://www.youtube.com/@MyGcoverinsurance" className="secondary-button border-white/20 bg-white/5 text-white hover:bg-white/10">Visitar YouTube</Link>
-                <Link href="https://instagram.com" className="secondary-button border-white/20 bg-white/5 text-white hover:bg-white/10">Seguir en Instagram</Link>
-              </div>
-            </div>
-
-            <div className="grid gap-6 lg:grid-cols-[1.3fr_0.7fr]">
-              <div className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/5 p-3">
-                <div className="relative aspect-video overflow-hidden rounded-[1.25rem] bg-[#dfeeff] text-[#0b1f3a]">
-                  <Image src="/brand/youtube-bg.png" alt="Contenido educativo de MyGcover" fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" />
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#0a1d35]/35 via-[#0a1d35]/10 to-[#122f4f]/20" />
-                  <div className="relative flex h-full items-center justify-center">
-                    <div className="flex h-20 w-20 items-center justify-center rounded-full bg-white/80 text-[#1d5cdd] shadow-xl backdrop-blur-sm">
-                      <Video size={34} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="grid gap-4">
-                {[
-                  "¿Qué debes saber antes de comparar opciones de protección?",
-                  "Beneficios en vida: cuándo pueden tener sentido.",
-                  "Seguro de vida para familias en Estados Unidos y América Latina.",
-                ].map((video, index) => (
-                  <div key={video} className="rounded-[1.25rem] border border-white/10 bg-white/5 p-4">
-                    <div className="mb-3 flex h-20 items-center justify-center rounded-xl bg-gradient-to-r from-[#dfeeff] to-[#dff8eb] text-[#0b1f3a]">
-                      <PlayVideoIcon />
-                    </div>
-                    <p className="text-sm text-blue-100">Video {index + 1}</p>
-                    <p className="mt-2 font-medium text-white">{video}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
         <section className="bg-[#f5f9ff] py-20">
           <div className="container-shell">
             <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
