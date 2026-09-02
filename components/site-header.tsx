@@ -17,7 +17,7 @@ const navItems = [
 export function SiteHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCallModalOpen, setIsCallModalOpen] = useState(false);
-  const [form, setForm] = useState({ fullName: "", phone: "", email: "", consent: false });
+  const [form, setForm] = useState({ fullName: "", phone: "", email: "", country: "", consent: false });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
@@ -25,8 +25,8 @@ export function SiteHeader() {
   const handleCallFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!form.fullName || !form.phone || !form.email || !form.consent) {
-      setError("Completa tu nombre, teléfono, email y acepta el consentimiento para continuar.");
+    if (!form.fullName || !form.phone || !form.email || !form.country || !form.consent) {
+      setError("Completa tu nombre, teléfono, país, email y acepta el consentimiento para continuar.");
       setSuccess(null);
       return;
     }
@@ -42,7 +42,7 @@ export function SiteHeader() {
           full_name: form.fullName,
           phone: form.phone,
           email: form.email,
-          country: "Otro país de Latinoamérica",
+          country: form.country,
           state: "",
           insurance_interest: "No estoy seguro",
           preferred_contact_method: "Telefono",
@@ -59,7 +59,7 @@ export function SiteHeader() {
       }
 
       setSuccess("Gracias. Te contactaremos a la brevedad.");
-      setForm({ fullName: "", phone: "", email: "", consent: false });
+      setForm({ fullName: "", phone: "", email: "", country: "", consent: false });
     } catch {
       setError("No pudimos registrar tu solicitud en este momento. Inténtalo de nuevo.");
       setSuccess(null);
@@ -199,6 +199,16 @@ export function SiteHeader() {
                   onChange={(event) => setForm((prev) => ({ ...prev, phone: event.target.value }))}
                   className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3"
                   placeholder="(555) 123-4567"
+                />
+              </label>
+
+              <label className="block space-y-2 text-sm font-medium text-slate-700">
+                País
+                <input
+                  value={form.country}
+                  onChange={(event) => setForm((prev) => ({ ...prev, country: event.target.value }))}
+                  className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3"
+                  placeholder="Ej. México, Estados Unidos, Argentina"
                 />
               </label>
 

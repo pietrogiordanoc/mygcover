@@ -4,8 +4,8 @@ import { leadSchema } from "@/lib/lead-schema";
 import { insertLeadServer } from "@/lib/supabase-server";
 import { isRateLimited } from "@/lib/rate-limit";
 
-const NOTIFY_FROM = "MyGCover <info@mygcover.com>";
-const NOTIFY_TO = "info@mygcover.com";
+const NOTIFY_FROM = process.env.RESEND_FROM_EMAIL || "MyGCover <onboarding@resend.dev>";
+const NOTIFY_TO = process.env.NOTIFY_TO_EMAIL || "info@mygcover.com";
 
 async function sendLeadNotification(lead: {
   full_name: string;
@@ -19,28 +19,39 @@ async function sendLeadNotification(lead: {
   source: string;
 }) {
   const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) return;
+  if (!apiKey) {
+    console.error("RESEND_API_KEY missing");
+    return;
+  }
 
   const resend = new Resend(apiKey);
 
-  await resend.emails.send({
-    from: NOTIFY_FROM,
-    to: NOTIFY_TO,
-    subject: `Nuevo lead: ${lead.full_name} — ${lead.insurance_interest}`,
-    html: `
-      <h2>Nuevo lead recibido</h2>
-      <table cellpadding="6" style="border-collapse:collapse;font-family:sans-serif;font-size:14px">
-        <tr><td><b>Nombre</b></td><td>${lead.full_name}</td></tr>
-        <tr><td><b>Email</b></td><td>${lead.email}</td></tr>
-        <tr><td><b>Teléfono</b></td><td>${lead.phone}</td></tr>
-        <tr><td><b>País</b></td><td>${lead.country}${lead.state ? ` — ${lead.state}` : ""}</td></tr>
-        <tr><td><b>Interés</b></td><td>${lead.insurance_interest}</td></tr>
-        <tr><td><b>Contacto preferido</b></td><td>${lead.preferred_contact_method}</td></tr>
-        <tr><td><b>Fuente</b></td><td>${lead.source}</td></tr>
-        ${lead.message ? `<tr><td><b>Mensaje</b></td><td>${lead.message}</td></tr>` : ""}
-      </table>
-    `,
-  });
+  try {
+    const result = await resend.emails.send({
+      from: NOTIFY_FROM,
+      to: NOTIFY_TO,
+      subject: `Nuevo lead: ${lead.full_name} — ${lead.insurance_interest}`,
+      html: `
+        <h2>Nuevo lead recibido</h2>
+        <table cellpadding="6" style="border-collapse:collapse;font-family:sans-serif;font-size:14px">
+          <tr><td><b>Nombre</b></td><td>${lead.full_name}</td></tr>
+          <tr><td><b>Email</b></td><td>${lead.email}</td></tr>
+          <tr><td><b>Teléfono</b></td><td>${lead.phone}</td></tr>
+          <tr><td><b>País</b></td><td>${lead.country}${lead.state ? ` — ${lead.state}` : ""}</td></tr>
+          <tr><td><b>Interés</b></td><td>${lead.insurance_interest}</td></tr>
+          <tr><td><b>Contacto preferido</b></td><td>${lead.preferred_contact_method}</td></tr>
+          <tr><td><b>Fuente</b></td><td>${lead.source}</td></tr>
+          ${lead.message ? `<tr><td><b>Mensaje</b></td><td>${lead.message}</td></tr>` : ""}
+        </table>
+      `,
+    });
+
+    if (result.error) {
+      console.error("Resend email failed:", result.error);
+    }
+  } catch (error) {
+    console.error("Resend notification crashed:", error);
+  }
 }
 
 const GENERIC_ERROR = "No pudimos guardar tu solicitud en este momento. Inténtalo de nuevo.";
@@ -108,7 +119,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: false, message: GENERIC_ERROR }, { status: 502 });
   }
 
-  // No esperamos la notificación para no bloquear la respuesta al usuario.
+  // No esperamos la notificación para no bloquear la respuesta al usuario,
+  // pero sí capturamos los errores para poder depurarlos en el servidor.
   void sendLeadNotification(lead);
 
   return NextResponse.json({ ok: true });
