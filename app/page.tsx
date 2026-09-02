@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import {
   ArrowRight,
   BadgeCheck,
@@ -19,6 +20,30 @@ import {
 } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+
+const heroSlides = [
+  {
+    label: "Seguro para familia",
+    title: "Protección para tu familia y lo que más quieres cuidar",
+    text: "Explora opciones de seguro de vida y cobertura para proteger a tus seres queridos, tus ingresos y tu calidad de vida en Estados Unidos y en toda América.",
+    image: "/brand/family1.png",
+    href: "/evaluacion",
+  },
+  {
+    label: "IUL",
+    title: "Protección con crecimiento potencial para el futuro",
+    text: "Un seguro de vida indexado puede combinar cobertura con un componente de acumulación de valor vinculado a un índice, pensado para objetivos a mediano y largo plazo.",
+    image: "/iul.png",
+    href: "/iul",
+  },
+  {
+    label: "Seguro de viaje",
+    title: "Cobertura para salir con más tranquilidad",
+    text: "Protege tus viajes nacionales e internacionales con opciones pensadas para viajar con mayor calma y seguridad, según tu destino y tu perfil.",
+    image: "/travel.png",
+    href: "/contacto",
+  },
+];
 
 const trustPillars = [
   "Atención en español",
@@ -118,40 +143,78 @@ const faqList = [
 ];
 
 export default function Home() {
+  const [activeSlide, setActiveSlide] = useState(0);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setActiveSlide((current) => (current + 1) % heroSlides.length);
+    }, 5000);
+
+    return () => window.clearInterval(timer);
+  }, []);
+
+  const currentSlide = heroSlides[activeSlide];
+
   return (
     <>
       <SiteHeader />
       <main>
         <section className="relative isolate overflow-hidden py-16 md:py-20">
-          <Image src="/brand/family1.png" alt="Familia hispana frente a su hogar" fill sizes="100vw" className="-z-20 object-cover object-[65%_center]" priority />
-          <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#07182d]/95 via-[#0b1f3a]/82 to-[#0b1f3a]/25" />
-          <div className="container-shell">
+          <div className="absolute inset-0">
+            {heroSlides.map((slide, index) => (
+              <div
+                key={slide.label}
+                className={`absolute inset-0 transition-opacity duration-700 ease-out ${
+                  index === activeSlide ? "opacity-100" : "pointer-events-none opacity-0"
+                }`}
+              >
+                <Image
+                  src={slide.image}
+                  alt={slide.label}
+                  fill
+                  sizes="100vw"
+                  priority={index === 0}
+                  className="object-cover object-center"
+                />
+              </div>
+            ))}
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-r from-[#07182d]/95 via-[#0b1f3a]/82 to-[#0b1f3a]/25" />
+          <div className="container-shell relative">
             <div className="max-w-2xl">
-                <p className="protect-badge mb-4 text-[#9cc5ff]">PROTECCIÓN NACIONAL E INTERNACIONAL</p>
-                <h1 className="max-w-[640px] text-balance text-4xl font-extrabold tracking-[-0.03em] text-white sm:text-5xl lg:text-6xl">
-                  Seguros de vida, salud y viaje para Estados Unidos y Latinoamérica
-                </h1>
-                <p className="mt-6 max-w-xl text-lg leading-8 text-white/90">
-                  Vivas en Estados Unidos o en otro país de Latinoamérica, te ayudamos a explorar opciones de protección nacionales e internacionales según tu ubicación, objetivos y elegibilidad.
-                </p>
-                <p className="mt-4 max-w-xl text-base font-semibold text-[#b8d5ff]">
-                  También ofrecemos opciones de seguro de vida internacional para personas que residen fuera de Estados Unidos.
-                </p>
-                <p className="mt-4 text-base font-medium text-white/90">
-                  Explora opciones de protección según tu país, tus necesidades y la etapa de vida en la que te encuentras. Orientación personalizada en español.
-                </p>
-                <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-                  <Link href="/evaluacion" className="primary-button">
-                    Descubrir mis opciones <ArrowRight size={18} />
-                  </Link>
-                  <Link href="/contacto" className="secondary-button">
-                    Hablar con un asesor
-                  </Link>
-                </div>
-                <p className="mt-5 text-sm font-medium text-white/90">Vida · IUL · Salud · Gastos finales · Beneficios en vida · Viajes</p>
-                <p className="mt-2 text-xs text-white/70">
-                  La disponibilidad de productos, coberturas y requisitos varía según el país, el estado, la aseguradora y la elegibilidad.
-                </p>
+              <div className="mb-5 flex gap-2">
+                {heroSlides.map((slide, index) => (
+                  <button
+                    key={slide.label}
+                    type="button"
+                    aria-label={`Ver slide ${slide.label}`}
+                    onClick={() => setActiveSlide(index)}
+                    className={`h-2.5 rounded-full transition-all ${
+                      index === activeSlide ? "w-10 bg-white" : "w-2.5 bg-white/50 hover:bg-white/80"
+                    }`}
+                  />
+                ))}
+              </div>
+
+              <p className="protect-badge mb-4 text-[#9cc5ff]">{currentSlide.label}</p>
+              <h1 className="max-w-[640px] text-balance text-4xl font-extrabold tracking-[-0.03em] text-white sm:text-5xl lg:text-6xl">
+                {currentSlide.title}
+              </h1>
+              <p className="mt-6 max-w-xl text-lg leading-8 text-white/90">
+                {currentSlide.text}
+              </p>
+              <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+                <Link href={currentSlide.href} className="primary-button">
+                  Descubrir mis opciones <ArrowRight size={18} />
+                </Link>
+                <Link href="/contacto" className="secondary-button">
+                  Hablar con un asesor
+                </Link>
+              </div>
+              <p className="mt-5 text-sm font-medium text-white/90">Vida · IUL · Salud · Gastos finales · Beneficios en vida · Viajes</p>
+              <p className="mt-2 text-xs text-white/70">
+                La disponibilidad de productos, coberturas y requisitos varía según el país, el estado, la aseguradora y la elegibilidad.
+              </p>
             </div>
           </div>
         </section>
