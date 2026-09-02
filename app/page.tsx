@@ -139,10 +139,11 @@ const faqList = [
 
 export default function Home() {
   const [activeSlide, setActiveSlide] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
+  const [isUserPaused, setIsUserPaused] = useState(false);
+  const [isHoverPaused, setIsHoverPaused] = useState(false);
 
   useEffect(() => {
-    if (isPaused) {
+    if (isUserPaused || isHoverPaused) {
       return undefined;
     }
 
@@ -151,9 +152,10 @@ export default function Home() {
     }, 5000);
 
     return () => window.clearInterval(timer);
-  }, [isPaused]);
+  }, [isUserPaused, isHoverPaused]);
 
   const currentSlide = heroSlides[activeSlide];
+  const isPaused = isUserPaused || isHoverPaused;
 
   return (
     <>
@@ -180,16 +182,16 @@ export default function Home() {
             ))}
           </div>
           <div className="absolute inset-0 bg-gradient-to-r from-[#07182d]/95 via-[#0b1f3a]/82 to-[#0b1f3a]/25" />
-          <div className="container-shell relative" onMouseEnter={() => setIsPaused(true)} onMouseLeave={() => setIsPaused(false)}>
+          <div className="container-shell relative" onMouseEnter={() => setIsHoverPaused(true)} onMouseLeave={() => setIsHoverPaused(false)}>
             <div className="max-w-2xl">
-              <div className="mb-5 flex items-center gap-3" onMouseEnter={() => setIsPaused(true)} onMouseLeave={() => setIsPaused(false)}>
+              <div className="mb-5 flex items-center gap-3" onMouseEnter={() => setIsHoverPaused(true)} onMouseLeave={() => setIsHoverPaused(false)}>
                 <button
                   type="button"
-                  onClick={() => setIsPaused((prev) => !prev)}
-                  aria-label={isPaused ? "Reanudar carrusel" : "Pausar carrusel"}
+                  onClick={() => setIsUserPaused((prev) => !prev)}
+                  aria-label={isUserPaused ? "Reanudar carrusel" : "Pausar carrusel"}
                   className="flex h-10 w-10 items-center justify-center rounded-full border border-white/40 bg-white/10 text-white shadow-md backdrop-blur-sm transition hover:bg-white/15"
                 >
-                  {isPaused ? <Play size={16} className="ml-0.5" /> : <Pause size={16} />}
+                  {isUserPaused ? <Play size={16} className="ml-0.5" /> : <Pause size={16} />}
                 </button>
 
                 {heroSlides.map((slide, index) => (
@@ -199,10 +201,10 @@ export default function Home() {
                     aria-label={`Ver slide ${slide.label}`}
                     onClick={() => {
                       setActiveSlide(index);
-                      setIsPaused(true);
+                      setIsUserPaused(true);
                     }}
-                    onFocus={() => setIsPaused(true)}
-                    onBlur={() => setIsPaused(false)}
+                    onFocus={() => setIsHoverPaused(true)}
+                    onBlur={() => setIsHoverPaused(false)}
                     className={`h-2.5 rounded-full transition-all ${
                       index === activeSlide ? "w-10 bg-white" : "w-2.5 bg-white/50 hover:bg-white/80"
                     }`}
