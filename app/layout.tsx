@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
+import { MetaPixel } from "@/components/meta-pixel";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -50,7 +51,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="es" className={`${manrope.variable} h-full antialiased`}>
-      <body className="min-h-full bg-[#f8fbff] text-slate-800">{children}</body>
+      <body className="min-h-full bg-[#f8fbff] text-slate-800">
+        <MetaPixel />
+        {children}
+      </body>
     </html>
   );
 }
