@@ -101,7 +101,15 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: false, message: GENERIC_ERROR }, { status: 400 });
   }
 
-  const lead = parsed.data;
+  const parsedLead = parsed.data;
+  const lead = {
+    ...parsedLead,
+    utm_source: parsedLead.utm_source,
+    utm_medium: parsedLead.utm_medium,
+    utm_campaign: parsedLead.utm_campaign,
+    utm_content: parsedLead.utm_content,
+    utm_term: parsedLead.utm_term,
+  };
 
   // Honeypot: si un bot llenó el campo oculto, respondemos éxito sin guardar nada.
   if (lead.honeypot) {

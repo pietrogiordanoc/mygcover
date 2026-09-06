@@ -157,8 +157,9 @@ export default function EvaluationForm() {
     const storedUtmParams = readStoredUtmParams();
     const currentUtmParams = { ...storedUtmParams };
     let hasNewUtmParams = false;
+    const urlParams = new URLSearchParams(window.location.search);
     for (const key of utmKeys) {
-      const value = searchParams.get(key);
+      const value = urlParams.get(key);
       if (value) {
         currentUtmParams[key] = value;
         hasNewUtmParams = true;
