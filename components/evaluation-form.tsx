@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ArrowLeft, ArrowRight, CheckCircle2, ShieldCheck } from "lucide-react";
@@ -104,6 +104,7 @@ export default function EvaluationForm() {
   const [leadError, setLeadError] = useState<string | null>(null);
   const [leadSuccess, setLeadSuccess] = useState<string | null>(null);
   const [isLeadSubmitting, setIsLeadSubmitting] = useState(false);
+  const leadEventTracked = useRef(false);
 
   useEffect(() => {
     const countryFromUrl = searchParams.get("country") ?? "";
@@ -243,7 +244,8 @@ export default function EvaluationForm() {
           honeypot: leadForm.honeypot,
         }),
       });
-      ok = response.ok;
+      const result = (await response.json()) as { saved?: boolean };
+      ok = response.ok && result.saved === true;
     } catch {
       ok = false;
     }
@@ -255,6 +257,10 @@ export default function EvaluationForm() {
     }
 
     setIsLeadSubmitting(false);
+    if (!leadEventTracked.current) {
+      leadEventTracked.current = true;
+      window.fbq?.("track", "Lead");
+    }
     router.push("/gracias");
   };
 

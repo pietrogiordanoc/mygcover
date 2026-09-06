@@ -105,7 +105,7 @@ export async function POST(request: NextRequest) {
 
   // Honeypot: si un bot llenó el campo oculto, respondemos éxito sin guardar nada.
   if (lead.honeypot) {
-    return NextResponse.json({ ok: true });
+    return NextResponse.json({ ok: true, saved: false });
   }
 
   const turnstileOk = await verifyTurnstile(lead.turnstileToken, ip);
@@ -123,5 +123,5 @@ export async function POST(request: NextRequest) {
   // puede quedar interrumpida si el runtime cierra el proceso tras responder.
   await sendLeadNotification(lead);
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true, saved: true });
 }
