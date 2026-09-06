@@ -14,6 +14,11 @@ export const leadSchema = z.object({
   consent_to_contact: z.literal(true),
   honeypot: z.string().max(0).optional().default(""),
   turnstileToken: z.string().optional().default(""),
+  utm_source: z.string().trim().max(255).optional().default(""),
+  utm_medium: z.string().trim().max(255).optional().default(""),
+  utm_campaign: z.string().trim().max(255).optional().default(""),
+  utm_content: z.string().trim().max(255).optional().default(""),
+  utm_term: z.string().trim().max(255).optional().default(""),
 });
 
 export type LeadInput = z.infer<typeof leadSchema>;

@@ -81,6 +81,33 @@ const initialForm = {
 
 const leadInterestOptions = ["Seguro de vida", "IUL", "Salud", "Viaje", "No estoy seguro"] as const;
 const leadContactMethods = ["Telefono", "WhatsApp", "Email"] as const;
+const utmKeys = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"] as const;
+type UtmParams = Record<(typeof utmKeys)[number], string>;
+
+const emptyUtmParams: UtmParams = {
+  utm_source: "",
+  utm_medium: "",
+  utm_campaign: "",
+  utm_content: "",
+  utm_term: "",
+};
+
+const readStoredUtmParams = (): UtmParams => {
+  try {
+    const stored = sessionStorage.getItem("mygcover-utm");
+    if (!stored) {
+      return { ...emptyUtmParams };
+    }
+
+    const parsed = JSON.parse(stored) as Partial<UtmParams>;
+    return utmKeys.reduce(
+      (params, key) => ({ ...params, [key]: typeof parsed[key] === "string" ? parsed[key] : "" }),
+      { ...emptyUtmParams },
+    );
+  } catch {
+    return { ...emptyUtmParams };
+  }
+};
 
 export default function EvaluationForm() {
   const router = useRouter();
@@ -105,6 +132,7 @@ export default function EvaluationForm() {
   const [leadSuccess, setLeadSuccess] = useState<string | null>(null);
   const [isLeadSubmitting, setIsLeadSubmitting] = useState(false);
   const leadEventTracked = useRef(false);
+  const utmParams = useRef<UtmParams>({ ...emptyUtmParams });
 
   useEffect(() => {
     const countryFromUrl = searchParams.get("country") ?? "";
@@ -125,6 +153,22 @@ export default function EvaluationForm() {
 
     const country = countryFromUrl || savedCountry;
     const state = stateFromUrl || savedState;
+
+    const storedUtmParams = readStoredUtmParams();
+    const currentUtmParams = { ...storedUtmParams };
+    let hasNewUtmParams = false;
+    for (const key of utmKeys) {
+      const value = searchParams.get(key);
+      if (value) {
+        currentUtmParams[key] = value;
+        hasNewUtmParams = true;
+      }
+    }
+
+    if (hasNewUtmParams) {
+      sessionStorage.setItem("mygcover-utm", JSON.stringify(currentUtmParams));
+    }
+    utmParams.current = currentUtmParams;
 
     if (!country && !state) {
       return;
@@ -242,6 +286,7 @@ export default function EvaluationForm() {
           source: "evaluation_form",
           consent_to_contact: leadForm.consent,
           honeypot: leadForm.honeypot,
+          ...utmParams.current,
         }),
       });
       const result = (await response.json()) as { saved?: boolean };

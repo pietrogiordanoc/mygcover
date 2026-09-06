@@ -37,6 +37,11 @@ export async function insertLeadServer(lead: Omit<LeadInput, "honeypot" | "turns
     message: lead.message,
     source: lead.source,
     consent_to_contact: lead.consent_to_contact,
+    utm_source: lead.utm_source || null,
+    utm_medium: lead.utm_medium || null,
+    utm_campaign: lead.utm_campaign || null,
+    utm_content: lead.utm_content || null,
+    utm_term: lead.utm_term || null,
     status: "new",
   });
 
