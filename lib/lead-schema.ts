@@ -19,6 +19,11 @@ export const leadSchema = z.object({
   utm_campaign: z.string().trim().max(255).optional().default(""),
   utm_content: z.string().trim().max(255).optional().default(""),
   utm_term: z.string().trim().max(255).optional().default(""),
+  page_origin: z.string().trim().max(255).optional().default(""),
+  referrer: z.string().trim().max(2000).optional().default(""),
+  device_type: z.enum(["desktop", "tablet", "mobile", "unknown"]).optional().default("unknown"),
+  browser_language: z.string().trim().max(35).optional().default(""),
+  assessment_answers: z.record(z.string(), z.union([z.string(), z.array(z.string())])).optional().default({}),
 });
 
 export type LeadInput = z.infer<typeof leadSchema>;

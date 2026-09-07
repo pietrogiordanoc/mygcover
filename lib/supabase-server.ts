@@ -42,6 +42,11 @@ export async function insertLeadServer(lead: Omit<LeadInput, "honeypot" | "turns
     utm_campaign: lead.utm_campaign || null,
     utm_content: lead.utm_content || null,
     utm_term: lead.utm_term || null,
+    page_origin: lead.page_origin || null,
+    referrer: lead.referrer || null,
+    device_type: lead.device_type || null,
+    browser_language: lead.browser_language || null,
+    assessment_answers: Object.keys(lead.assessment_answers).length ? lead.assessment_answers : null,
     status: "new",
   });
 

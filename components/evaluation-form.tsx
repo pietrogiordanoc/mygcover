@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ArrowLeft, ArrowRight, CheckCircle2, ShieldCheck } from "lucide-react";
+import { getSafeReferrer } from "@/lib/client-metadata";
 
 const states = [
   "Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawái","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Misisipi","Missouri","Montana","Nebraska","Nevada","Nuevo Hampshire","Nueva Jersey","Nuevo México","Nueva York","Carolina del Norte","Dakota del Norte","Ohio","Oklahoma","Oregón","Pensilvania","Rhode Island","Carolina del Sur","Dakota del Sur","Tennessee","Texas","Utah","Vermont","Virginia","Washington","Virginia Occidental","Wisconsin","Wyoming","Washington D.C."];
@@ -288,6 +289,11 @@ export default function EvaluationForm() {
           consent_to_contact: leadForm.consent,
           honeypot: leadForm.honeypot,
           ...utmParams.current,
+          page_origin: window.location.pathname,
+          referrer: getSafeReferrer(document.referrer),
+          device_type: window.innerWidth <= 767 ? "mobile" : window.innerWidth <= 1023 ? "tablet" : "desktop",
+          browser_language: navigator.language,
+          assessment_answers: answers,
         }),
       });
       const result = (await response.json()) as { saved?: boolean };
