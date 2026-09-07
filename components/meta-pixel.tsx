@@ -2,7 +2,7 @@
 
 import Script from "next/script";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 
 declare global {
   interface Window {
@@ -14,20 +14,19 @@ const pixelId = "1049143371247283";
 
 export function MetaPixel() {
   const pathname = usePathname();
-  const previousPathname = useRef(pathname);
+  const [pixelReady, setPixelReady] = useState(false);
 
   useEffect(() => {
-    if (previousPathname.current === pathname) {
+    if (!pixelReady) {
       return;
     }
 
-    previousPathname.current = pathname;
     window.fbq?.("track", "PageView");
-  }, [pathname]);
+  }, [pathname, pixelReady]);
 
   return (
     <>
-      <Script id="meta-pixel" strategy="afterInteractive">
+      <Script id="meta-pixel" strategy="afterInteractive" onReady={() => setPixelReady(true)}>
         {`!function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -36,8 +35,7 @@ n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '${pixelId}');
-fbq('track', 'PageView');`}
+fbq('init', '${pixelId}');`}
       </Script>
       <noscript>
         <img
