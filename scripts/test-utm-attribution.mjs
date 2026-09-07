@@ -77,7 +77,7 @@ test("includes safe attribution and evaluation details in the notification", () 
     "browser_language",
     "assessment_answers",
     "consent_to_contact",
-    "No disponible",
+    "—",
   ]) {
     assert.match(notificationRoute, new RegExp(field.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
   }

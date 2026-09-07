@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
@@ -45,6 +45,11 @@ export default function ContactPage() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [honeypot, setHoneypot] = useState("");
+  const initialReferrer = useRef("");
+
+  useEffect(() => {
+    initialReferrer.current = getSafeReferrer(document.referrer);
+  }, []);
 
   const handleChange = (field: keyof typeof form, value: string | boolean) => {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -85,7 +90,7 @@ export default function ContactPage() {
       consent_to_contact: form.consent,
       honeypot,
       page_origin: window.location.pathname,
-      referrer: getSafeReferrer(document.referrer),
+      referrer: initialReferrer.current,
       device_type: window.innerWidth <= 767 ? "mobile" : window.innerWidth <= 1023 ? "tablet" : "desktop",
       browser_language: navigator.language,
       assessment_answers: {},

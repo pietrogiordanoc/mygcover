@@ -6,7 +6,20 @@ import { isRateLimited } from "@/lib/rate-limit";
 
 const NOTIFY_FROM = process.env.RESEND_FROM_EMAIL || "MyGCover <info@mygcover.com>";
 const NOTIFY_TO = process.env.NOTIFY_TO_EMAIL || "info@mygcover.com";
-const unavailable = "No disponible";
+const unavailable = "—";
+
+const assessmentLabels: Record<string, string> = {
+  interest: "Tipo de protección buscada",
+  country: "País de residencia",
+  state: "Estado o provincia",
+  age: "Rango de edad",
+  goal: "Prioridad de protección",
+  benefit: "Beneficio de interés",
+  dependents: "Personas dependientes económicamente",
+  budget: "Aporte mensual cómodo",
+  health: "Estado general de salud",
+  status: "Situación migratoria o documental",
+};
 
 function escapeHtml(value: unknown): string {
   return String(value ?? unavailable)
@@ -25,6 +38,77 @@ function displayValue(value: unknown): string {
   return escapeHtml(value);
 }
 
+function formatDateTime(value?: string): string {
+  const date = value ? new Date(value) : new Date();
+  if (Number.isNaN(date.getTime())) {
+    return unavailable;
+  }
+
+  return new Intl.DateTimeFormat("es-ES", {
+    dateStyle: "full",
+    timeStyle: "long",
+    timeZone: "Europe/Madrid",
+  }).format(date) + " (Europe/Madrid)";
+}
+
+function advertisingSource(utmSource?: string): string {
+  if (!utmSource) {
+    return unavailable;
+  }
+
+  const source = utmSource.trim().toLowerCase();
+  if (source === "meta" || source === "facebook" || source === "instagram") {
+    return "Meta Ads";
+  }
+  if (source === "google") {
+    return "Google Ads";
+  }
+
+  return utmSource;
+}
+
+function normalize(value?: string): string {
+  return value?.trim().toLocaleLowerCase("es") ?? "";
+}
+
+function normalizedInterest(value?: string): string {
+  const normalized = normalize(value);
+  if (normalized.startsWith("iul")) return "iul";
+  if (normalized.includes("vida")) return "seguro de vida";
+  if (normalized.includes("salud")) return "salud";
+  if (normalized.includes("viaje")) return "viaje";
+  return normalized;
+}
+
+function formatWarnings(lead: {
+  country: string;
+  state?: string;
+  insurance_interest: string;
+  assessment_answers: Record<string, string | string[]>;
+}): string {
+  const warnings: string[] = [];
+  const answers = lead.assessment_answers;
+  const assessmentCountry = typeof answers.country === "string" ? answers.country : "";
+  const assessmentState = typeof answers.state === "string" ? answers.state : "";
+  const assessmentInterest = typeof answers.interest === "string" ? answers.interest : "";
+
+  if (assessmentCountry && normalize(assessmentCountry) !== normalize(lead.country)) {
+    warnings.push(`El país del contacto (${lead.country}) no coincide con la evaluación (${assessmentCountry}).`);
+  }
+  if (assessmentState && lead.state && normalize(assessmentState) !== normalize(lead.state)) {
+    warnings.push(`El estado o provincia del contacto (${lead.state}) no coincide con la evaluación (${assessmentState}).`);
+  }
+  if (assessmentInterest && normalizedInterest(assessmentInterest) !== normalizedInterest(lead.insurance_interest)) {
+    warnings.push(`El interés del contacto (${lead.insurance_interest}) no coincide con la evaluación (${assessmentInterest}).`);
+  }
+
+  if (!warnings.length) {
+    return "";
+  }
+
+  return `<div style="margin-top:24px;border:1px solid #f59e0b;background:#fffbeb;padding:12px 16px;color:#92400e"><b>Advertencia de consistencia</b><ul style="margin:8px 0 0;padding-left:20px">${warnings.map((warning) => `<li>${escapeHtml(warning)}</li>`).join("")}</ul></div>`;
+}
+
 function formatAssessmentAnswers(answers: Record<string, string | string[]>): string {
   const entries = Object.entries(answers);
   if (!entries.length) {
@@ -32,7 +116,7 @@ function formatAssessmentAnswers(answers: Record<string, string | string[]>): st
   }
 
   return `<table cellpadding="6" style="border-collapse:collapse;width:100%;font-size:14px">${entries
-    .map(([question, answer]) => `<tr><td style="border-bottom:1px solid #e2e8f0"><b>${displayValue(question)}</b></td><td style="border-bottom:1px solid #e2e8f0">${displayValue(Array.isArray(answer) ? answer.join(", ") : answer)}</td></tr>`)
+    .map(([question, answer]) => `<tr><td style="border-bottom:1px solid #e2e8f0"><b>${displayValue(assessmentLabels[question] ?? question)}</b></td><td style="border-bottom:1px solid #e2e8f0">${displayValue(Array.isArray(answer) ? answer.join(", ") : answer)}</td></tr>`)
     .join("")}</table>`;
 }
 
@@ -79,17 +163,19 @@ async function sendLeadNotification(lead: {
           <tr><td><b>Nombre</b></td><td>${displayValue(lead.full_name)}</td></tr>
           <tr><td><b>Email</b></td><td>${displayValue(lead.email)}</td></tr>
           <tr><td><b>Teléfono</b></td><td>${displayValue(lead.phone)}</td></tr>
-          <tr><td><b>País</b></td><td>${displayValue(lead.country)}${lead.state ? ` — ${displayValue(lead.state)}` : ""}</td></tr>
+          <tr><td><b>País</b></td><td>${displayValue(lead.country)}</td></tr>
+          <tr><td><b>Estado o provincia</b></td><td>${displayValue(lead.state)}</td></tr>
           <tr><td><b>Interés</b></td><td>${displayValue(lead.insurance_interest)}</td></tr>
           <tr><td><b>Contacto preferido</b></td><td>${displayValue(lead.preferred_contact_method)}</td></tr>
-          <tr><td><b>Fuente</b></td><td>${displayValue(lead.source)}</td></tr>
+          <tr><td><b>Formulario</b></td><td>${lead.source === "evaluation_form" ? "Evaluación" : lead.source === "contact_form" ? "Contacto" : displayValue(lead.source)}</td></tr>
           <tr><td><b>Consentimiento aceptado</b></td><td>${lead.consent_to_contact ? "Sí" : "No"}</td></tr>
           ${lead.message ? `<tr><td><b>Mensaje</b></td><td>${displayValue(lead.message)}</td></tr>` : ""}
         </table>
         <h3 style="margin:28px 0 8px;color:#0b1f3a">Origen y atribución</h3>
         <table cellpadding="6" style="border-collapse:collapse;font-family:sans-serif;font-size:14px">
-          <tr><td><b>Fecha y hora</b></td><td>${displayValue(lead.created_at ?? new Date().toISOString())}</td></tr>
+          <tr><td><b>Fecha y hora</b></td><td>${formatDateTime(lead.created_at)}</td></tr>
           <tr><td><b>Página de origen</b></td><td>${displayValue(lead.page_origin)}</td></tr>
+          <tr><td><b>Fuente publicitaria</b></td><td>${displayValue(advertisingSource(lead.utm_source))}</td></tr>
           <tr><td><b>utm_source</b></td><td>${displayValue(lead.utm_source)}</td></tr>
           <tr><td><b>utm_medium</b></td><td>${displayValue(lead.utm_medium)}</td></tr>
           <tr><td><b>utm_campaign</b></td><td>${displayValue(lead.utm_campaign)}</td></tr>
@@ -101,6 +187,7 @@ async function sendLeadNotification(lead: {
         </table>
         <h3 style="margin:28px 0 8px;color:#0b1f3a">Respuestas de la evaluación</h3>
         ${formatAssessmentAnswers(lead.assessment_answers)}
+        ${formatWarnings(lead)}
         </div>
       `,
     });

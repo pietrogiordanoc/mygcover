@@ -134,6 +134,8 @@ export default function EvaluationForm() {
   const [isLeadSubmitting, setIsLeadSubmitting] = useState(false);
   const leadEventTracked = useRef(false);
   const utmParams = useRef<UtmParams>({ ...emptyUtmParams });
+  const pageOrigin = useRef("/evaluacion");
+  const initialReferrer = useRef("");
 
   useEffect(() => {
     const countryFromUrl = searchParams.get("country") ?? "";
@@ -159,6 +161,7 @@ export default function EvaluationForm() {
     const currentUtmParams = { ...storedUtmParams };
     let hasNewUtmParams = false;
     const urlParams = new URLSearchParams(window.location.search);
+    initialReferrer.current = getSafeReferrer(document.referrer);
     for (const key of utmKeys) {
       const value = urlParams.get(key);
       if (value) {
@@ -289,8 +292,8 @@ export default function EvaluationForm() {
           consent_to_contact: leadForm.consent,
           honeypot: leadForm.honeypot,
           ...utmParams.current,
-          page_origin: window.location.pathname,
-          referrer: getSafeReferrer(document.referrer),
+          page_origin: pageOrigin.current,
+          referrer: initialReferrer.current,
           device_type: window.innerWidth <= 767 ? "mobile" : window.innerWidth <= 1023 ? "tablet" : "desktop",
           browser_language: navigator.language,
           assessment_answers: answers,
