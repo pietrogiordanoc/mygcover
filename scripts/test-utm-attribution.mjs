@@ -19,6 +19,9 @@ const metaPixel = await readFile("components/meta-pixel.tsx", "utf8");
 const notificationRoute = await readFile("app/api/leads/route.ts", "utf8");
 const contactForm = await readFile("app/contacto/page.tsx", "utf8");
 const clientMetadata = await readFile("lib/client-metadata.ts", "utf8");
+const teLlamamosForm = await readFile("components/te-llamamos-form.tsx", "utf8");
+const teLlamamosPage = await readFile("app/te-llamamos/page.tsx", "utf8");
+const utmLib = await readFile("lib/utm.ts", "utf8");
 
 test("captures the campaign UTM values and preserves new URL values", () => {
   const url = new URL("https://mygcover.com/evaluacion");
@@ -88,4 +91,27 @@ test("includes safe attribution and evaluation details in the notification", () 
   assert.doesNotMatch(clientMetadata, /url\.search|url\.hash/);
   assert.doesNotMatch(notificationRoute, /lead\.ip|lead\.cookie|document\.cookie/);
   assert.doesNotMatch(notificationRoute, /cookie|fbq|fbevents/);
+});
+
+test("supports the callback_form landing page with UTM capture and safe Meta Lead tracking", () => {
+  assert.match(schema, /callback_form/);
+  assert.match(notificationRoute, /callback_form.*Solicitud de llamada/);
+  assert.match(teLlamamosPage, /TeLlamamosForm/);
+  assert.match(teLlamamosPage, /robots: \{ index: false, follow: false \}/);
+
+  for (const key of Object.keys(values)) {
+    assert.match(utmLib, new RegExp(key));
+  }
+
+  assert.match(teLlamamosForm, /\.\.\.utmParams\.current/);
+  assert.match(teLlamamosForm, /source: "callback_form"/);
+  assert.match(teLlamamosForm, /captureUtmParams\(window\.location\.search\)/);
+  assert.match(utmLib, /sessionStorage\.setItem/);
+  assert.match(teLlamamosForm, /result\.saved === true/);
+  assert.match(teLlamamosForm, /leadEventTracked\.current = true/);
+  assert.match(teLlamamosForm, /window\.fbq\?\.\("track", "Lead"\)/);
+  assert.match(teLlamamosForm, /router\.push\("\/gracias"\)/);
+  assert.match(teLlamamosForm, /honeypot/);
+  assert.doesNotMatch(teLlamamosForm, /fbq\?\.\("track", "Lead",/);
+  assert.doesNotMatch(teLlamamosForm, /window\.fbq\?\.\("track", "PageView"/);
 });

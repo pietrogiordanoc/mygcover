@@ -167,7 +167,7 @@ async function sendLeadNotification(lead: {
           <tr><td><b>Estado o provincia</b></td><td>${displayValue(lead.state)}</td></tr>
           <tr><td><b>Interés</b></td><td>${displayValue(lead.insurance_interest)}</td></tr>
           <tr><td><b>Contacto preferido</b></td><td>${displayValue(lead.preferred_contact_method)}</td></tr>
-          <tr><td><b>Formulario</b></td><td>${lead.source === "evaluation_form" ? "Evaluación" : lead.source === "contact_form" ? "Contacto" : displayValue(lead.source)}</td></tr>
+          <tr><td><b>Formulario</b></td><td>${lead.source === "evaluation_form" ? "Evaluación" : lead.source === "contact_form" ? "Contacto" : lead.source === "callback_form" ? "Solicitud de llamada" : displayValue(lead.source)}</td></tr>
           <tr><td><b>Consentimiento aceptado</b></td><td>${lead.consent_to_contact ? "Sí" : "No"}</td></tr>
           ${lead.message ? `<tr><td><b>Mensaje</b></td><td>${displayValue(lead.message)}</td></tr>` : ""}
         </table>
