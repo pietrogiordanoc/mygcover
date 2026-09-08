@@ -124,21 +124,18 @@ export function TeLlamamosForm() {
 
   return (
     <div className="w-full max-w-md rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-[0_18px_40px_rgba(11,31,58,0.18)] md:p-8">
-      <div className="mb-5 flex items-center gap-3">
+      <div className="mb-4 flex items-center gap-3">
         <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#edf5ff] text-[#1d5cdd]">
           <PhoneCall size={20} />
         </div>
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#1d5cdd]">Te llamamos</p>
-          <h1 className="mt-1 text-2xl font-bold text-[#0b1f3a]">Hablemos sobre tu protección</h1>
-        </div>
+        <h1 className="text-2xl font-bold text-[#0b1f3a]">Solicita una llamada</h1>
       </div>
 
-      <p className="mb-6 text-base leading-7 text-slate-600">
+      <p className="mb-5 text-base leading-7 text-slate-600">
         Déjanos tus datos y un representante de MyGcover podrá comunicarse contigo para conocer qué estás buscando.
       </p>
 
-      <form className="space-y-4" onSubmit={handleSubmit} noValidate>
+      <form className="space-y-3" onSubmit={handleSubmit} noValidate>
         <input
           type="text"
           value={form.honeypot}
@@ -148,8 +145,8 @@ export function TeLlamamosForm() {
           autoComplete="off"
         />
 
-        <label className="block space-y-2 text-sm font-medium text-slate-700">
-          Nombre completo
+        <label className="block space-y-1.5 text-sm font-medium text-slate-700">
+          Nombre
           <input
             required
             autoComplete="name"
@@ -160,7 +157,7 @@ export function TeLlamamosForm() {
           />
         </label>
 
-        <label className="block space-y-2 text-sm font-medium text-slate-700">
+        <label className="block space-y-1.5 text-sm font-medium text-slate-700">
           Teléfono
           <input
             type="tel"
@@ -173,8 +170,8 @@ export function TeLlamamosForm() {
           />
         </label>
 
-        <label className="block space-y-2 text-sm font-medium text-slate-700">
-          Estado o país de residencia
+        <label className="block space-y-1.5 text-sm font-medium text-slate-700">
+          ¿Dónde resides?
           <input
             required
             autoComplete="address-level1"
@@ -185,7 +182,7 @@ export function TeLlamamosForm() {
           />
         </label>
 
-        <label className="block space-y-2 text-sm font-medium text-slate-700">
+        <label className="block space-y-1.5 text-sm font-medium text-slate-700">
           Email
           <input
             type="email"
@@ -205,15 +202,13 @@ export function TeLlamamosForm() {
             onChange={(event) => updateField("consent", event.target.checked)}
             className="mt-1 h-4 w-4"
           />
-          <span>
-            Autorizo a MyGcover y a sus representantes a contactarme por teléfono, mensaje de texto, WhatsApp o correo electrónico en relación con mi solicitud de información. Entiendo que esta autorización no constituye una solicitud formal de seguro ni garantiza elegibilidad o aprobación.
-          </span>
+          <span>Acepto que MyGcover me contacte sobre esta solicitud.</span>
         </label>
 
         {error ? <p className="text-sm font-medium text-red-600">{error}</p> : null}
 
         <button type="submit" className="primary-button w-full justify-center" disabled={isSubmitting}>
-          {isSubmitting ? "Enviando..." : "Solicitar llamada"}
+          {isSubmitting ? "Enviando..." : "Quiero que me llamen"}
         </button>
       </form>
     </div>
